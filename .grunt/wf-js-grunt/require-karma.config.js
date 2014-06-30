@@ -5,7 +5,7 @@ baseUrl: '/base',
 
 
 paths: {
-    "clunch-picker": "./src"
+    "lunch-picker": "./src"
 },
 
 
