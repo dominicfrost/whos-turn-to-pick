@@ -1,0 +1,15 @@
+{
+  "name": "lunch-picker",
+  "version": "0.0.0",
+  "description": "A tool to help make pciking team lunches easier",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dominic Frost",
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "wf-grunt": "git+ssh://git@github.com:WebFilings/wf-grunt.git#0.3.3"
+  }
+}

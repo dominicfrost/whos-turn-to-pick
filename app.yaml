@@ -1,0 +1,71 @@
+application: lunchpicker
+version: 1
+runtime: go
+api_version: go1
+
+handlers:
+- url: /
+  static_files: index.html
+  upload: index.html
+  login: optional
+
+- url: /src/main.js
+  static_files: src/main.js
+  upload: src/main.js
+  login: optional
+
+- url: /src/component.js
+  static_files: src/component.js
+  upload: src/component.js
+  login: optional
+
+- url: /src/addTeamMember.js
+  static_files: src/addTeamMember.js
+  upload: src/addTeamMember.js
+  login: optional
+
+- url: /src/teamList.js
+  static_files: src/teamList.js
+  upload: src/teamList.js
+  login: optional
+
+- url: /src/picker.js
+  static_files: src/picker.js
+  upload: src/picker.js
+  login: optional
+
+# Public Tools
+
+- url: /tools/require.js
+  static_files: bower_components/requirejs/require.js
+  upload: bower_components/requirejs/require.js
+
+- url: /tools/jquery.js
+  static_files: node_modules/jquery/dist/jquery.js
+  upload: node_modules/jquery/dist/jquery.js
+
+- url: /tools/react.js
+  static_files: bower_components/react/react.js
+  upload: bower_components/react/react.js
+
+
+# Server Side
+
+- url: /
+  script: _go_app
+  login: optional
+
+- url: /loginHandler
+  script: _go_app
+  login: optional
+
+- url: /.*
+  script: _go_app
+  login: optional
+
+# Shared Dependencies
+
+- url: /require.config.js
+  static_files: require.config.js
+  upload: require.config.js
+  login: optional
