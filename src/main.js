@@ -11,7 +11,7 @@ define(function(require) {
 			lastPicked: null
 		},
 		{
-			name: 'Mike Thieson',
+			name: 'Mike Thiesen',
 			hasPicked: false,
 			lastPicked: null
 		},
@@ -21,7 +21,7 @@ define(function(require) {
 			lastPicked: null
 		},
 		{
-			name:'Stephen Bush',
+			name:'Stephen Bush'`,
 			hasPicked: false,
 			lastPicked: null
 		}
