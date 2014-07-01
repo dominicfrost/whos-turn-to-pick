@@ -21,7 +21,7 @@ define(function(require) {
 			lastPicked: null
 		},
 		{
-			name:'Stephen Bush'`,
+			name:'Stephen Bush',
 			hasPicked: false,
 			lastPicked: null
 		}
@@ -60,7 +60,7 @@ define(function(require) {
 			if (teamMembers[i].name === teamMember) {
 				teamMembers[i].hasPicked = true;
 				var today = new Date();
-				teamMembers[i].lastPicked = today.getMonth() + "/" + today.getDate() + "/" + (today.getYear() + 1900);
+				teamMembers[i].lastPicked = (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getYear() + 1900);
 				break;
 			}
 		}

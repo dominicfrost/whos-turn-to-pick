@@ -11,5 +11,8 @@
   "devDependencies": {
     "grunt": "^0.4.5",
     "wf-grunt": "git+ssh://git@github.com:WebFilings/wf-grunt.git#0.3.3"
+  },
+  "dependencies": {
+    "jquery": "~2.1.1"
   }
 }
