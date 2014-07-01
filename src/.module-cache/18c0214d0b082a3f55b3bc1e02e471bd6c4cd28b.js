@@ -30,14 +30,6 @@ define(function(require) {
 				}
 			});
 
-			// for (var i = 0, len = this.props.teamMembers.length; i < len; i++) {
-			// 	if (this.props.teamMembers[i].hasPicked) {
-			// 		canNotPick.push(teamMembers[i]);
-			// 	} else {
-			// 		canPick.push(teamMembers[i]);
-			// 	}
-			// }
-
 			return (
 				React.DOM.div(null, 
 					React.DOM.div( {style:p1Style}, 

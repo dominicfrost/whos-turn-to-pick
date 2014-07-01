@@ -1,4 +1,4 @@
-application: lunchpicker
+application: wf-dominicfrost
 version: 1
 runtime: go
 api_version: go1
@@ -69,3 +69,4 @@ handlers:
   static_files: require.config.js
   upload: require.config.js
   login: optional
+
