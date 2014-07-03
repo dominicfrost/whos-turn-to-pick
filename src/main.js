@@ -31,6 +31,7 @@ define(function(require) {
 
 	function loginSuccess(json) {
 		console.log('success!!! Welcome, ' + json.author);
+		getTeamMembers();
 	};
 
 	function loginFailed() {
@@ -48,12 +49,50 @@ define(function(require) {
         });
 	};
 
+	function teamMemberAddedSuccess(json) {
+		console.log('team member successfully added!');
+	};
+
+	function teamMemberAddedFailed() {
+		console.log('Failed to add team member!')
+	};
+
 	function onMemberAdded(newTeamMember) {
 		teamMembers.push(newTeamMember);
+
+		$.ajax({
+            url: '/addTeamMemberHandler',
+            data: JSON.stringify(newTeamMember),
+            type: 'POST',
+            dataType : 'json',
+            success: teamMemberAddedSuccess,
+            error: teamMemberAddedFailed
+        });
+
 		component.setProps({
 			teamMembers: teamMembers
 		});
 	};
+
+	function getTeamMembersSuccess(json) {
+		teamMembers = json.teamMembers
+		setUpReact();
+	}
+
+	function getTeamMembersFailed() {
+		console.log('Failed to get team Members')
+	}
+
+	function getTeamMembers() {
+		$.ajax({
+            url: '/getTeamMembersHandler',
+            data: {},
+            type: 'POST',
+            dataType : 'json',
+            success: getTeamMembersSuccess,
+            error: getTeamMembersFailed
+        });
+	}
 
 	function onMemberPick(teamMember) {
 		for (var i = 0, len = teamMembers.length; i < len; i++) {
@@ -94,7 +133,6 @@ define(function(require) {
 	};
 
 	$(document).ready(function() {
-		setUpReact();
 		logIn();
     });
 });

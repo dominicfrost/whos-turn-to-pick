@@ -26,7 +26,7 @@ define(function(require) {
 			var newMember = {
 				name: this.refs.textarea.state.value,
 				hasPicked: false,
-				lastPicked: null
+				lastPicked: ""
 			};
 			this.props.onMemberAdded(newMember);
 		}
