@@ -75,7 +75,7 @@ define(function(require) {
 	};
 
 	function getTeamMembersSuccess(json) {
-		teamMembers = json.teamMembers
+		teamMembers = json.teamMembers || [];
 		setUpReact();
 	}
 
@@ -100,6 +100,7 @@ define(function(require) {
 				teamMembers[i].hasPicked = true;
 				var today = new Date();
 				teamMembers[i].lastPicked = (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getYear() + 1900);
+				updateTeamMembers([teamMembers[i]]);
 				break;
 			}
 		}
@@ -110,10 +111,30 @@ define(function(require) {
 		});
 	};
 
+	function teamMembersUpdateSuccess(json) {
+		console.log('Successfully updated team members')
+	}
+
+	function teamMembersUpdateFailed(json) {
+		console.log('Failed to update team members')
+	}
+
+	function updateTeamMembers(teamMembers) {
+		$.ajax({
+            url: '/updateTeamMembersHandler',
+            data: JSON.stringify(teamMembers),
+            type: 'POST',
+            dataType : 'json',
+            success: teamMembersUpdateSuccess,
+            error: teamMembersUpdateFailed
+        });
+	}
+
 	function resetBucket() {
 		for (var i = 0, len = teamMembers.length; i < len; i++) {
 			teamMembers[i].hasPicked = false;
 		}
+		updateTeamMembers(teamMembers);
 		component.setProps({
 			teamMembers: teamMembers
 		});

@@ -26,10 +26,19 @@ type addTeamMemberResponse struct {
 	Result		string		`json:"result"`
 }
 
+type updateTeamMemberResponse struct {
+	Result		string		`json:"result"`
+}
+
+type updateTeamMembersResponse struct {
+	Result		string		`json:"result"`
+}
+
 func init() {
     http.HandleFunc("/loginHandler", loginHandler)
     http.HandleFunc("/addTeamMemberHandler", addTeamMemberHandler)
     http.HandleFunc("/getTeamMembersHandler", getTeamMembersHandler)
+    http.HandleFunc("/updateTeamMembersHandler", updateTeamMembersHandler)
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
@@ -81,7 +90,7 @@ func getTeamMembersHandler(w http.ResponseWriter, r *http.Request) {
 	response.Result = "OK"
 
 	c := appengine.NewContext(r)
-	
+
 	response.TeamMembers, err = getTeamMembers(c)
 
 	if err != nil {
@@ -104,5 +113,41 @@ func getTeamMembers(c appengine.Context) ([]TeamMember, error) {
 
 	return teamMembers, nil
 }
+
+func updateTeamMembersHandler(w http.ResponseWriter, r *http.Request)  {
+	var response updateTeamMemberResponse
+	response.Result = "OK"
+	var oldMember []TeamMember
+	var updatedMembers []TeamMember
+
+
+	c := appengine.NewContext(r)
+	err := ParseJSONRequest(r, &updatedMembers)
+
+	if err != nil {
+		c.Infof("Failed to parse JSON request", err)
+		SendErrorResponse(w, "Failed to Parse JSON Request", err)
+		return
+	}
+
+	for i := range updatedMembers {
+		updatedMember := updatedMembers[i]
+		q := datastore.NewQuery("TeamMember").Filter("Name =", updatedMember.Name)
+		key, err := q.GetAll(c, &oldMember)
+
+		_, err = datastore.Put(c, key[0], &updatedMember)
+
+
+		if err != nil {
+			c.Infof("Failed to update the team member", err)
+			SendErrorResponse(w, "Failed to update the team member", err)
+			return
+		}
+	}
+
+	SendJSONResponse(w, response)
+}
+
+
 
 

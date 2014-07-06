@@ -8,6 +8,7 @@ bower_components/
 docs/api/
 node_modules/
 out/
+src/.module-cache/*
 
 _*.runner.html
 npm-debug.log
