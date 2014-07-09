@@ -7,7 +7,7 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '150px'
+				top: '170px'
 			};
 
 			var lastPickerDate = null;

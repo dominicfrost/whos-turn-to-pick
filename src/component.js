@@ -3,6 +3,7 @@ define(function(require) {
 	'use strict';
 	var React = require('../tools/react');
 	var AddTeamMember = require('addTeamMember');
+	var TeamMembersList = require('teamMembersList');
 	var TeamList = require('teamList');
 	var Picker = require('picker');
 
@@ -15,7 +16,7 @@ define(function(require) {
 					AddTeamMember(
 						{onMemberAdded:this._onMemberAdded}
 					),
-					TeamList(
+					TeamMembersList(
 						{teamMembers:this.props.teamMembers}
 					),
 					Picker(
@@ -23,9 +24,24 @@ define(function(require) {
 						onMemberPick:this._onMemberPick,
 						currentPicker:this.props.currentPicker,
 						resetBucket:this._resetBucket}
+					),
+
+					TeamList(
+						{teams:this.props.teams,
+						onCreateTeam:this._onCreateTeam,
+						onSelectionChange:this._onSelectionChange}
 					)
+
 				)
 			);
+		},
+
+		_onSelectionChange: function(selectionName) {
+			this.props.onSelectionChange(selectionName)
+		},
+
+		_onCreateTeam: function(teamName) {
+			this.props.onCreateTeam(teamName);
 		},
 
 		_onMemberPick: function(teamMember) {

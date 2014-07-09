@@ -4,34 +4,17 @@ define(function(require) {
 	var ReactComponent = require('component');
 	var React = require('../tools/react');
 
-	var teamMembers = [
-		{
-			name: 'Dominic Frost',
-			hasPicked: false,
-			lastPicked: null
-		},
-		{
-			name: 'Mike Thiesen',
-			hasPicked: false,
-			lastPicked: null
-		},
-		{
-			name: 'Grant Nelson',
-			hasPicked: false,
-			lastPicked: null
-		},
-		{
-			name:'Stephen Bush',
-			hasPicked: false,
-			lastPicked: null
-		}
-	];
+	var teamMembers = [];
+
+	var teams = [];
 
 	var component = null;
 
+	var currentTeam = "";
+
 	function loginSuccess(json) {
 		console.log('success!!! Welcome, ' + json.author);
-		getTeamMembers();
+		getTeams();
 	};
 
 	function loginFailed() {
@@ -49,8 +32,75 @@ define(function(require) {
         });
 	};
 
+	function teamCreatedSuccess(json) {
+		console.log('team successfully created!');
+	};
+
+	function teamCreatedFailed() {
+		console.log('Failed to create team!')
+	};
+
+	function onCreateTeam(teamName) {
+		var newTeam = {
+			name: teamName
+		}
+
+		teams.push(newTeam);
+
+		$.ajax({
+            url: '/createTeamHandler',
+            data: JSON.stringify(newTeam),
+            type: 'POST',
+            dataType : 'json',
+            success: teamCreatedSuccess,
+            error: teamCreatedFailed
+        });
+
+		component.setProps({
+			teams: teams
+		});
+	};
+
+	function getTeamMembersSuccess(json) {
+		console.log('team successfully retrieved!');
+
+		teamMembers = json.teamMembers || [];
+
+		component.setProps({
+			teamMembers: teamMembers
+		});
+	};
+
+	function getTeamMembersFailed() {
+		console.log('Failed to get team!')
+	};
+
+	// Get Team
+	function getTeamMembers(teamName) {
+		var team = {
+			name: teamName
+		};
+
+		currentTeam = teamName;
+
+		$.ajax({
+            url: '/getTeamMembersHandler',
+            data: JSON.stringify(team),
+            type: 'POST',
+            dataType : 'json',
+            success: getTeamMembersSuccess,
+            error: getTeamMembersFailed
+        });
+	};
+
+
 	function teamMemberAddedSuccess(json) {
 		console.log('team member successfully added!');
+		teamMembers.push(json.teamMember);
+
+		component.setProps({
+			teamMembers: teamMembers
+		});
 	};
 
 	function teamMemberAddedFailed() {
@@ -58,7 +108,7 @@ define(function(require) {
 	};
 
 	function onMemberAdded(newTeamMember) {
-		teamMembers.push(newTeamMember);
+		newTeamMember.team = currentTeam;
 
 		$.ajax({
             url: '/addTeamMemberHandler',
@@ -68,29 +118,25 @@ define(function(require) {
             success: teamMemberAddedSuccess,
             error: teamMemberAddedFailed
         });
-
-		component.setProps({
-			teamMembers: teamMembers
-		});
 	};
 
-	function getTeamMembersSuccess(json) {
-		teamMembers = json.teamMembers || [];
+	function getTeamsSuccess(json) {
+		teams = json.teams || [];
 		setUpReact();
 	}
 
-	function getTeamMembersFailed() {
+	function getTeamsFailed() {
 		console.log('Failed to get team Members')
 	}
 
-	function getTeamMembers() {
+	function getTeams() {
 		$.ajax({
-            url: '/getTeamMembersHandler',
+            url: '/getTeamsHandler',
             data: {},
             type: 'POST',
             dataType : 'json',
-            success: getTeamMembersSuccess,
-            error: getTeamMembersFailed
+            success: getTeamsSuccess,
+            error: getTeamsFailed
         });
 	}
 
@@ -143,8 +189,11 @@ define(function(require) {
 	function setUpReact() {
 		component = new ReactComponent({
 			teamMembers: teamMembers,
+			teams: teams,
+			onSelectionChange: getTeamMembers,
 			onMemberAdded: onMemberAdded,
 			onMemberPick: onMemberPick,
+			onCreateTeam: onCreateTeam,
 			resetBucket: resetBucket
 		});
 		React.renderComponent(

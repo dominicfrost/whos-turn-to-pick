@@ -6,28 +6,34 @@ define(function(require) {
 	var addUser = React.createClass({displayName: 'addUser',
 		render: function() {
 			var style = {
-				float: 'left',
-				'padding-right': '100px'
+				position: 'fixed',
+				top: '120px'
 			};
 
+			var textareaStyle = {
+				resize: 'none',
+				height: '14px'
+			}
+
+			var buttonStyle = {
+				position: 'relative',
+				top: '-5px'
+			}
 			return (
 				React.DOM.div( {style:style} , 
-					React.DOM.textarea( {ref:"textarea",onChange:this._handleChange},  " " ),
-					React.DOM.button( {onClick:this._handleClick}, "Add User")
+					React.DOM.textarea( {placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
+					React.DOM.button( {style:buttonStyle, onClick:this._handleClick}, "Add User")
 				)
 			);
-		},
-
-		_handleChange: function() {
-			console.log('changed');
 		},
 
 		_handleClick: function() {
 			var newMember = {
 				name: this.refs.textarea.state.value,
 				hasPicked: false,
-				lastPicked: ""
+				lastPicked: null
 			};
+			this.refs.textarea.state.value = '';
 			this.props.onMemberAdded(newMember);
 		}
 	});
