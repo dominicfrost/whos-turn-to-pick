@@ -9,13 +9,16 @@ define(function(require) {
 
 	var mainComponent = React.createClass({
 
+		getInitialState: function() {
+			return {
+				disabled: true
+			}
+		},
+
 		render: function() {
 
 			return (
 				<div>
-					<AddTeamMember
-						onMemberAdded={this._onMemberAdded}
-					/>
 					<TeamMembersList
 						teamMembers={this.props.teamMembers}
 					/>
@@ -25,7 +28,10 @@ define(function(require) {
 						currentPicker={this.props.currentPicker}
 						resetBucket={this._resetBucket}
 					/>
-
+					<AddTeamMember
+						disabled={this.state.disabled}
+						onMemberAdded={this._onMemberAdded}
+					/>
 					<TeamList
 						teams={this.props.teams}
 						onCreateTeam={this._onCreateTeam}
@@ -37,7 +43,17 @@ define(function(require) {
 		},
 
 		_onSelectionChange: function(selectionName) {
+			var disabled;
+			if (selectionName === "-") {
+				disabled = true;
+			} else {
+				disabled = false;
+			}
 			this.props.onSelectionChange(selectionName)
+
+			this.setState({
+				disabled: disabled
+			});
 		},
 
 		_onCreateTeam: function(teamName) {

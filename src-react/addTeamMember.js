@@ -4,6 +4,7 @@ define(function(require) {
 	var React = require('../tools/react');
 
 	var addUser = React.createClass({
+
 		render: function() {
 			var style = {
 				position: 'fixed',
@@ -19,10 +20,11 @@ define(function(require) {
 				position: 'relative',
 				top: '-5px'
 			}
+
 			return (
 				<div style={style} >
 					<textarea placeholder="Insert User Name..." style={textareaStyle} ref="textarea"/>
-					<button style={buttonStyle} onClick={this._handleClick}>Add User</button>
+					<button disabled={this.props.disabled} style={buttonStyle} onClick={this._handleClick}>Add User</button>
 				</div>
 			);
 		},
