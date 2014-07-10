@@ -13,7 +13,7 @@ define(function(require) {
 			var lastPickerDate = null;
 			for (var i = 0, len = this.props.teamMembers.length; i < len; i++) {
 				if (this.props.currentPicker === this.props.teamMembers[i].name) {
-					lastPickerDate = this.props.teamMembers[i].lastPicked;
+					lastPickerDate = this.formatDate(this.props.teamMembers[i].lastPicked);
 					break;
 				}
 			}
@@ -42,9 +42,13 @@ define(function(require) {
 			if (canPickMembers.length <= 1) {
 				this.props.resetBucket();
 			}
+		},
+
+		formatDate: function(dateString) {
+			var date = new Date(dateString);
+			return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() - 100);
 		}
 	});
-
 
 	return picker;
 });

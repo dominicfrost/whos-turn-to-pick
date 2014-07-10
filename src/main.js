@@ -144,8 +144,8 @@ define(function(require) {
 		for (var i = 0, len = teamMembers.length; i < len; i++) {
 			if (teamMembers[i].name === teamMember) {
 				teamMembers[i].hasPicked = true;
-				var today = new Date();
-				teamMembers[i].lastPicked = (today.getMonth() + 1) + "/" + today.getDate() + "/" + (today.getYear() + 1900);
+				var now = new Date();
+				teamMembers[i].lastPicked = now.toString();
 				updateTeamMembers([teamMembers[i]]);
 				break;
 			}

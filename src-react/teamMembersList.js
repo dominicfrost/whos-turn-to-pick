@@ -32,7 +32,7 @@ define(function(require) {
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
 					return <div>
-								{teamMember.name} {teamMember.lastPicked}
+								{teamMember.name} {self.formatDate(teamMember.lastPicked)}
 								<button style={buttonStyle} onClick={self._handleClick}>x</button>
 							</div>
 				}
@@ -54,6 +54,11 @@ define(function(require) {
 
 		_handleClick: function(event, b) {
 			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
+		},
+		
+		formatDate: function(dateString) {
+			var date = new Date(dateString);
+			return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() - 100);
 		}
 	});
 
