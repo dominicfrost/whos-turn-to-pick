@@ -17,41 +17,43 @@ define(function(require) {
 				left: '700px'
 			};
 
-			var noFloatStyle = {
-				clear: 'both'
-			};
-
+			var buttonStyle =  {
+				'margin-left': '15px'
+			}
+			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
-					return <li key={uniqueKey++}>{teamMember.name}</li>
+					return <div>
+								{teamMember.name}
+								<button style={buttonStyle} onClick={self._handleClick}>x</button>
+							</div>
 				}
 			});
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
-					return <li>{teamMember.name} {teamMember.lastPicked}</li>
+					return <div>
+								{teamMember.name} {teamMember.lastPicked}
+								<button style={buttonStyle} onClick={self._handleClick}>x</button>
+							</div>
 				}
 			});
 
 			return (
 				<div>
 					<div style={p1Style}>
-						<p> Can Choose </p>
-						<ul> {canPick} </ul>
+						<h3> Can Choose </h3>
+						{canPick}
 					</div>
 					<div style={p2Style}>
-						<p> Already Chosen </p>
-						<ul> {canNotPick} </ul>
+						<h3> Already Chosen </h3>
+						{canNotPick}
 					</div>
 				</div>
 			);
 		},
 
-		_handleChange: function() {
-			console.log('changed');
-		},
-
-		_handleClick: function() {
-			console.log('clicked');
+		_handleClick: function(event, b) {
+			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
 		}
 	});
 

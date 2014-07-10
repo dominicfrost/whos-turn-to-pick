@@ -41,8 +41,9 @@ type updateTeamMemberResponse struct {
 	Result		string		`json:"result"`
 }
 
-type updateTeamMembersResponse struct {
+type removeTeamMemberResponse struct {
 	Result		string		`json:"result"`
+	TeamMember 	TeamMember 	`json:"teamMember"`
 }
 
 type createTeamResponse struct {
@@ -55,6 +56,7 @@ func init() {
     http.HandleFunc("/addTeamMemberHandler", addTeamMemberHandler)
     http.HandleFunc("/getTeamMembersHandler", getTeamMembersHandler)
     http.HandleFunc("/updateTeamMembersHandler", updateTeamMembersHandler)
+    http.HandleFunc("/removeTeamMemberHandler", removeTeamMemberHandler)
 
     http.HandleFunc("/createTeamHandler", createTeamHandler)
     http.HandleFunc("/getTeamsHandler", getTeamsHandler)
@@ -68,7 +70,7 @@ func loginHandler(w http.ResponseWriter, r *http.Request) {
 
 	response.Author = getUserName(c)
 
-	c.Infof("%s", response.Author)
+	// c.Infof("%s", response.Author)
 
 	SendJSONResponse(w, response)
 }
@@ -174,6 +176,32 @@ func updateTeamMembersHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	SendJSONResponse(w, response)
+}
+
+func removeTeamMemberHandler(w http.ResponseWriter, r *http.Request) {
+	var response removeTeamMemberResponse
+	response.Result = "OK"
+	var removedMember TeamMember
+
+	c := appengine.NewContext(r)
+	err := ParseJSONRequest(r, &removedMember)
+
+	if err != nil {
+		c.Infof("Failed to parse JSON request", err)
+		SendErrorResponse(w, "Failed to Parse JSON Request", err)
+		return
+	}
+
+	key := datastore.NewKey(c, "TeamMember", removedMember.Name, 0, nil)
+	err = datastore.Delete(c, key)
+
+	if err != nil {
+		c.Infof("Failed to delete user from the datastore")
+		SendErrorResponse(w, "Failed to delete user from the datastore", err)
+	}
+	response.TeamMember = removedMember
 
 	SendJSONResponse(w, response)
 }

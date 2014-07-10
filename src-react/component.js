@@ -21,6 +21,7 @@ define(function(require) {
 				<div>
 					<TeamMembersList
 						teamMembers={this.props.teamMembers}
+						onMemberRemoved={this._onMemberRemoved}
 					/>
 					<Picker
 						teamMembers={this.props.teamMembers}
@@ -54,6 +55,10 @@ define(function(require) {
 			this.setState({
 				disabled: disabled
 			});
+		},
+
+		_onMemberRemoved: function(teamMember) {
+			this.props.onMemberRemoved(teamMember);
 		},
 
 		_onCreateTeam: function(teamName) {

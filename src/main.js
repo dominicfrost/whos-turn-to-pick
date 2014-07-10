@@ -176,6 +176,40 @@ define(function(require) {
         });
 	}
 
+	function teamMemberRemoveSuccess(json) {
+		var index = teamMembers.indexOf(json.teamMember);
+		teamMembers.splice(index, 1);
+		component.setProps({
+			teamMembers: teamMembers
+		});
+
+		console.log('Successfully removed team member');
+	}
+
+	function teamMemberRemoveFailed(json) {
+		console.log('Failed to remove team member');
+	}
+
+	function onMemberRemoved(teamMemberName) {
+		var teamMember = null;
+
+		for (var i = 0; i < teamMembers.length; i++) {
+			if (teamMembers[i].name === teamMemberName) {
+				teamMember = teamMembers[i];
+				break;
+			}
+		}
+
+		$.ajax({
+            url: '/removeTeamMemberHandler',
+            data: JSON.stringify(teamMember),
+            type: 'POST',
+            dataType : 'json',
+            success: teamMemberRemoveSuccess,
+            error: teamMemberRemoveFailed
+        });
+	}
+
 	function resetBucket() {
 		for (var i = 0, len = teamMembers.length; i < len; i++) {
 			teamMembers[i].hasPicked = false;
@@ -192,6 +226,7 @@ define(function(require) {
 			teams: teams,
 			onSelectionChange: getTeamMembers,
 			onMemberAdded: onMemberAdded,
+			onMemberRemoved: onMemberRemoved,
 			onMemberPick: onMemberPick,
 			onCreateTeam: onCreateTeam,
 			resetBucket: resetBucket

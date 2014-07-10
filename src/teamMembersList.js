@@ -17,41 +17,43 @@ define(function(require) {
 				left: '700px'
 			};
 
-			var noFloatStyle = {
-				clear: 'both'
-			};
-
+			var buttonStyle =  {
+				'margin-left': '15px'
+			}
+			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
-					return React.DOM.li( {key:uniqueKey++}, teamMember.name)
+					return React.DOM.div(null, 
+								teamMember.name,
+								React.DOM.button( {style:buttonStyle, onClick:self._handleClick}, "x")
+							)
 				}
 			});
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
-					return React.DOM.li(null, teamMember.name, " ", teamMember.lastPicked)
+					return React.DOM.div(null, 
+								teamMember.name, " ", teamMember.lastPicked,
+								React.DOM.button( {style:buttonStyle, onClick:self._handleClick}, "x")
+							)
 				}
 			});
 
 			return (
 				React.DOM.div(null, 
 					React.DOM.div( {style:p1Style}, 
-						React.DOM.p(null,  " Can Choose " ),
-						React.DOM.ul(null,  " ", canPick, " " )
+						React.DOM.h3(null,  " Can Choose " ),
+						canPick
 					),
 					React.DOM.div( {style:p2Style}, 
-						React.DOM.p(null,  " Already Chosen " ),
-						React.DOM.ul(null,  " ", canNotPick, " " )
+						React.DOM.h3(null,  " Already Chosen " ),
+						canNotPick
 					)
 				)
 			);
 		},
 
-		_handleChange: function() {
-			console.log('changed');
-		},
-
-		_handleClick: function() {
-			console.log('clicked');
+		_handleClick: function(event, b) {
+			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
 		}
 	});
 
