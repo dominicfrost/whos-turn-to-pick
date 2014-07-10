@@ -53,7 +53,6 @@ handlers:
   static_files: bower_components/react/react.js
   upload: bower_components/react/react.js
 
-
 # Server Side
 
 - url: /

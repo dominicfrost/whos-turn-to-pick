@@ -19,7 +19,14 @@ define(function(require) {
 
 			var buttonStyle =  {
 				'margin-left': '15px'
-			}
+			};
+
+			this.props.teamMembers.sort(function compare(a, b) {
+				if (a.lastPicked < b.lastPicked) return -1;
+				if (a.lastPicked > b.lastPicked) return 1;
+				return 0;
+			});
+
 			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
