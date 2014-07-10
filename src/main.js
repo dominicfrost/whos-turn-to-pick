@@ -66,8 +66,21 @@ define(function(require) {
 
 		teamMembers = json.teamMembers || [];
 
+		var recentPick = 0;
+		var memberPicked;
+		var currentPicker;
+
+		for (var i = 0; i < teamMembers.length; i++) {
+			memberPicked = new Date(teamMembers[i].lastPicked);
+			if (recentPick < memberPicked) {
+				recentPick = memberPicked;
+				currentPicker = teamMembers[i];
+			}
+		}
+
 		component.setProps({
-			teamMembers: teamMembers
+			teamMembers: teamMembers,
+			currentPicker: currentPicker
 		});
 	};
 
@@ -141,19 +154,21 @@ define(function(require) {
 	}
 
 	function onMemberPick(teamMember) {
+		var currentPicker;
 		for (var i = 0, len = teamMembers.length; i < len; i++) {
 			if (teamMembers[i].name === teamMember) {
-				teamMembers[i].hasPicked = true;
+				currentPicker = teamMembers[i];
+				currentPicker.hasPicked = true;
 				var now = new Date();
-				teamMembers[i].lastPicked = now.toString();
-				updateTeamMembers([teamMembers[i]]);
+				currentPicker.lastPicked = now.toString();
+				updateTeamMembers([currentPicker]);
 				break;
 			}
 		}
 
 		component.setProps({
 			teamMembers: teamMembers,
-			currentPicker: teamMember
+			currentPicker: currentPicker
 		});
 	};
 

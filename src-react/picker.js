@@ -10,18 +10,20 @@ define(function(require) {
 				top: '170px'
 			};
 
-			var lastPickerDate = null;
+			var lastPickerDate = '';
 			for (var i = 0, len = this.props.teamMembers.length; i < len; i++) {
-				if (this.props.currentPicker === this.props.teamMembers[i].name) {
+				if (this.props.currentPicker && this.props.currentPicker.name === this.props.teamMembers[i].name) {
 					lastPickerDate = this.formatDate(this.props.teamMembers[i].lastPicked);
 					break;
 				}
 			}
 
+			var currentPicker = this.props.currentPicker ? this.props.currentPicker.name : '';
+
 			return (
 				<div style={style}>
-					<button onClick={this._handleClick}>Whose Picking Lunch?</button>
-					<p>{this.props.currentPicker} {lastPickerDate}</p>
+					<button disabled={this.props.disabled} onClick={this._handleClick}>Whose Picking Lunch?</button>
+					<p>Last To Choose: {currentPicker} {lastPickerDate}</p>
 				</div>
 			);
 		},
@@ -46,7 +48,7 @@ define(function(require) {
 
 		formatDate: function(dateString) {
 			var date = new Date(dateString);
-			return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() - 100);
+			return (date.getMonth() + 1) + '/' + date.getDate() + '/' + (date.getYear() - 100);
 		}
 	});
 

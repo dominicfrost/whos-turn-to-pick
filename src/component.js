@@ -7,11 +7,28 @@ define(function(require) {
 	var TeamList = require('teamList');
 	var Picker = require('picker');
 
+	var PICK_THRESHOLD = 1195200000; // 13 days and 20 hours
+
 	var mainComponent = React.createClass({displayName: 'mainComponent',
 
 		getInitialState: function() {
 			return {
-				disabled: true
+				addMemberDisabled: true,
+				pickerDisabled: true
+			}
+		},
+
+
+		componentWillReceiveProps: function(nextProps) {
+			if (nextProps.currentPicker && new Date() - new Date(nextProps.currentPicker.lastPicked) < PICK_THRESHOLD ||
+				nextProps.teamMembers.length === 0) {
+				this.setState({
+					pickerDisabled: true
+				});
+			} else {
+				this.setState({
+					pickerDisabled: false
+				});
 			}
 		},
 
@@ -27,10 +44,11 @@ define(function(require) {
 						{teamMembers:this.props.teamMembers,
 						onMemberPick:this._onMemberPick,
 						currentPicker:this.props.currentPicker,
-						resetBucket:this._resetBucket}
+						resetBucket:this._resetBucket,
+						disabled:this.state.pickerDisabled}
 					),
 					AddTeamMember(
-						{disabled:this.state.disabled,
+						{disabled:this.state.addMemberDisabled,
 						onMemberAdded:this._onMemberAdded}
 					),
 					TeamList(
@@ -44,16 +62,26 @@ define(function(require) {
 		},
 
 		_onSelectionChange: function(selectionName) {
-			var disabled;
+			var addMemberDisabled;
+			var pickerDisabled;
 			if (selectionName === "-") {
-				disabled = true;
+				addMemberDisabled = true;
+				pickerDisabled = true;
 			} else {
-				disabled = false;
+				addMemberDisabled = false;
+				if (this.props.currentPicker && new Date() - new Date(this.props.currentPicker.lastPicked) < PICK_THRESHOLD ||
+					this.props.teamMembers.length === 0) {
+					pickerDisabled = true;
+				} else {
+					pickerDisabled = false;
+				}
 			}
-			this.props.onSelectionChange(selectionName)
+
+			this.props.onSelectionChange(selectionName);
 
 			this.setState({
-				disabled: disabled
+				addMemberDisabled: addMemberDisabled,
+				pickerDisabled: pickerDisabled
 			});
 		},
 
