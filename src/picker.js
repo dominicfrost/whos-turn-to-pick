@@ -7,21 +7,23 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '150px'
+				top: '170px'
 			};
 
-			var lastPickerDate = null;
+			var lastPickerDate = '';
 			for (var i = 0, len = this.props.teamMembers.length; i < len; i++) {
-				if (this.props.currentPicker === this.props.teamMembers[i].name) {
-					lastPickerDate = this.props.teamMembers[i].lastPicked;
+				if (this.props.currentPicker && this.props.currentPicker.name === this.props.teamMembers[i].name) {
+					lastPickerDate = this.formatDate(this.props.teamMembers[i].lastPicked);
 					break;
 				}
 			}
 
+			var currentPicker = this.props.currentPicker ? this.props.currentPicker.name : '';
+
 			return (
 				React.DOM.div( {style:style}, 
-					React.DOM.button( {onClick:this._handleClick}, "Whose Picking Lunch?"),
-					React.DOM.p(null, this.props.currentPicker, " ", lastPickerDate)
+					React.DOM.button( {disabled:this.props.disabled, onClick:this._handleClick}, "Whose Picking Lunch?"),
+					React.DOM.p(null, "Last To Choose: ", currentPicker, " ", lastPickerDate)
 				)
 			);
 		},
@@ -42,9 +44,13 @@ define(function(require) {
 			if (canPickMembers.length <= 1) {
 				this.props.resetBucket();
 			}
+		},
+
+		formatDate: function(dateString) {
+			var date = new Date(dateString);
+			return (date.getMonth() + 1) + '/' + date.getDate() + '/' + (date.getYear() - 100);
 		}
 	});
-
 
 	return picker;
 });

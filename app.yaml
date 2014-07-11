@@ -29,6 +29,11 @@ handlers:
   upload: src/teamList.js
   login: optional
 
+- url: /src/teamMembersList.js
+  static_files: src/teamMembersList.js
+  upload: src/teamMembersList.js
+  login: optional
+
 - url: /src/picker.js
   static_files: src/picker.js
   upload: src/picker.js
@@ -47,7 +52,6 @@ handlers:
 - url: /tools/react.js
   static_files: bower_components/react/react.js
   upload: bower_components/react/react.js
-
 
 # Server Side
 

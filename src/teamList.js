@@ -3,56 +3,61 @@ define(function(require) {
 	'use strict';
 	var React = require('../tools/react');
 
+	var uniqueKey = 0;
+
 	var teamList = React.createClass({displayName: 'teamList',
+
+		getInitialState: function() {
+			return {
+				value: ""
+			};
+		},
+
 		render: function() {
-			var p1Style = {
+			var style = {
 				position: 'fixed',
-				left: '400px'
+				top: '70px'
 			};
 
-			var p2Style = {
-				position: 'fixed',
-				left: '700px'
-			};
+			var textareaStyle = {
+				resize: 'none',
+				height: '14px'
+			}
 
-			var noFloatStyle = {
-				clear: 'both'
-			};
+			var buttonStyle = {
+				position: 'relative',
+				top: '-5px'
+			}
 
-			var canPick = this.props.teamMembers.map(function(teamMember, index) {
-				if (!teamMember.hasPicked) {
-					return React.DOM.li(null, teamMember.name)
-				}
-			});
-			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
-				if (teamMember.hasPicked) {
-					return React.DOM.li(null, teamMember.name, " ", teamMember.lastPicked)
-				}
+			var teamsList = this.props.teams.map(function(team, index) {
+				return React.DOM.option( {key:uniqueKey++, value:team.name}, team.name)
 			});
 
 			return (
-				React.DOM.div(null, 
-					React.DOM.div( {style:p1Style}, 
-						React.DOM.p(null,  " Can Choose " ),
-						React.DOM.ul(null,  " ", canPick, " " )
-					),
-					React.DOM.div( {style:p2Style}, 
-						React.DOM.p(null,  " Already Chosen " ),
-						React.DOM.ul(null,  " ", canNotPick, " " )
+				React.DOM.div( {style:style} , 
+					React.DOM.textarea( {placeholder:"Insert Team Name...", style:textareaStyle, ref:"textarea"}),
+					React.DOM.button( {style:buttonStyle, onClick:this._handleClick}, "Create Team"),
+					React.DOM.select( {style:buttonStyle, value:this.state.value, ref:"select", onChange:this._handleSelectionChange}, 
+						React.DOM.option( {key:"-1", value:"-"}, "-"),
+						teamsList
 					)
+
 				)
 			);
 		},
 
-		_handleChange: function() {
-			console.log('changed');
+		_handleClick: function() {
+			this.props.onCreateTeam(this.refs.textarea.state.value);
+			this.refs.textarea.state.value = '';
 		},
 
-		_handleClick: function() {
-			console.log('clicked');
+		_handleSelectionChange: function() {
+			this.props.onSelectionChange(event.target.value);
+			this.setState({
+				value: event.target.value
+			});
 		}
 	});
-
 
 	return teamList;
 });
