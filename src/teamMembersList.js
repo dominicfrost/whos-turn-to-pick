@@ -22,9 +22,13 @@ define(function(require) {
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
-				if (a.lastPicked < b.lastPicked) return -1;
-				if (a.lastPicked > b.lastPicked) return 1;
-				return 0;
+				if (a.lastPicked < b.lastPicked) {
+					return -1;
+				} else if (a.lastPicked > b.lastPicked) {
+					return 1;
+				} else {
+					return 0;
+				}
 			});
 
 			var self = this;
@@ -65,7 +69,7 @@ define(function(require) {
 		
 		formatDate: function(dateString) {
 			var date = new Date(dateString);
-			return (date.getMonth() + 1) + "/" + date.getDate() + "/" + (date.getYear() - 100);
+			return (date.getMonth() + 1) + '/' + date.getDate() + '/' + (date.getYear() - 100);
 		}
 	});
 

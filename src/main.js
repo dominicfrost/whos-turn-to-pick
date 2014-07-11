@@ -10,16 +10,16 @@ define(function(require) {
 
 	var component = null;
 
-	var currentTeam = "";
+	var currentTeam = '';
 
 	function loginSuccess(json) {
 		//console.log('success!!! Welcome, ' + json.author);
 		getTeams();
-	};
+	}
 
 	function loginFailed() {
 		//console.log('failure...');
-	};
+	}
 
 	function logIn() {
 		$.ajax({
@@ -30,15 +30,15 @@ define(function(require) {
             success: loginSuccess,
             error: loginFailed
         });
-	};
+	}
 
 	function teamCreatedSuccess(json) {
 		//console.log('team successfully created!');
-	};
+	}
 
 	function teamCreatedFailed() {
 		//console.log('Failed to create team!')
-	};
+	}
 
 	function onCreateTeam(teamName) {
 		var newTeam = {
@@ -59,7 +59,7 @@ define(function(require) {
 		component.setProps({
 			teams: teams
 		});
-	};
+	}
 
 	function getTeamMembersSuccess(json) {
 		//console.log('team successfully retrieved!');
@@ -82,11 +82,11 @@ define(function(require) {
 			teamMembers: teamMembers,
 			currentPicker: currentPicker
 		});
-	};
+	}
 
 	function getTeamMembersFailed() {
 		//console.log('Failed to get team!')
-	};
+	}
 
 	// Get Team
 	function getTeamMembers(teamName) {
@@ -104,7 +104,7 @@ define(function(require) {
             success: getTeamMembersSuccess,
             error: getTeamMembersFailed
         });
-	};
+	}
 
 
 	function teamMemberAddedSuccess(json) {
@@ -114,11 +114,11 @@ define(function(require) {
 		component.setProps({
 			teamMembers: teamMembers
 		});
-	};
+	}
 
 	function teamMemberAddedFailed() {
 		//console.log('Failed to add team member!')
-	};
+	}
 
 	function onMemberAdded(newTeamMember) {
 		newTeamMember.team = currentTeam;
@@ -131,7 +131,7 @@ define(function(require) {
             success: teamMemberAddedSuccess,
             error: teamMemberAddedFailed
         });
-	};
+	}
 
 	function getTeamsSuccess(json) {
 		teams = json.teams || [];
@@ -170,7 +170,7 @@ define(function(require) {
 			teamMembers: teamMembers,
 			currentPicker: currentPicker
 		});
-	};
+	}
 
 	function teamMembersUpdateSuccess(json) {
 		//console.log('Successfully updated team members')
@@ -233,7 +233,7 @@ define(function(require) {
 		component.setProps({
 			teamMembers: teamMembers
 		});
-	};
+	}
 
 	function setUpReact() {
 		component = new ReactComponent({
@@ -250,7 +250,7 @@ define(function(require) {
 			component,
 			document.getElementById('mainContainer')
 		);
-	};
+	}
 
 	$(document).ready(function() {
 		logIn();

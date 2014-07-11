@@ -14,15 +14,15 @@ define(function(require) {
 			var textareaStyle = {
 				resize: 'none',
 				height: '14px'
-			}
+			};
 
 			var buttonStyle = {
 				position: 'relative',
 				top: '-5px'
-			}
+			};
 
 			return (
-				React.DOM.div( {style:style} , 
+				React.DOM.div( {style:style}, 
 					React.DOM.textarea( {placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
 					React.DOM.button( {disabled:this.props.disabled, style:buttonStyle, onClick:this._handleClick}, "Add User")
 				)

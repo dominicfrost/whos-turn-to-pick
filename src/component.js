@@ -15,7 +15,7 @@ define(function(require) {
 			return {
 				addMemberDisabled: true,
 				pickerDisabled: true
-			}
+			};
 		},
 
 
@@ -64,7 +64,7 @@ define(function(require) {
 		_onSelectionChange: function(selectionName) {
 			var addMemberDisabled;
 			var pickerDisabled;
-			if (selectionName === "-") {
+			if (selectionName === '-') {
 				addMemberDisabled = true;
 				pickerDisabled = true;
 			} else {
