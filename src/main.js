@@ -13,12 +13,12 @@ define(function(require) {
 	var currentTeam = "";
 
 	function loginSuccess(json) {
-		console.log('success!!! Welcome, ' + json.author);
+		//console.log('success!!! Welcome, ' + json.author);
 		getTeams();
 	};
 
 	function loginFailed() {
-		console.log('failure...');
+		//console.log('failure...');
 	};
 
 	function logIn() {
@@ -33,11 +33,11 @@ define(function(require) {
 	};
 
 	function teamCreatedSuccess(json) {
-		console.log('team successfully created!');
+		//console.log('team successfully created!');
 	};
 
 	function teamCreatedFailed() {
-		console.log('Failed to create team!')
+		//console.log('Failed to create team!')
 	};
 
 	function onCreateTeam(teamName) {
@@ -62,7 +62,7 @@ define(function(require) {
 	};
 
 	function getTeamMembersSuccess(json) {
-		console.log('team successfully retrieved!');
+		//console.log('team successfully retrieved!');
 
 		teamMembers = json.teamMembers || [];
 
@@ -85,7 +85,7 @@ define(function(require) {
 	};
 
 	function getTeamMembersFailed() {
-		console.log('Failed to get team!')
+		//console.log('Failed to get team!')
 	};
 
 	// Get Team
@@ -108,7 +108,7 @@ define(function(require) {
 
 
 	function teamMemberAddedSuccess(json) {
-		console.log('team member successfully added!');
+		//console.log('team member successfully added!');
 		teamMembers.push(json.teamMember);
 
 		component.setProps({
@@ -117,7 +117,7 @@ define(function(require) {
 	};
 
 	function teamMemberAddedFailed() {
-		console.log('Failed to add team member!')
+		//console.log('Failed to add team member!')
 	};
 
 	function onMemberAdded(newTeamMember) {
@@ -139,7 +139,7 @@ define(function(require) {
 	}
 
 	function getTeamsFailed() {
-		console.log('Failed to get team Members')
+		//console.log('Failed to get team Members')
 	}
 
 	function getTeams() {
@@ -173,11 +173,11 @@ define(function(require) {
 	};
 
 	function teamMembersUpdateSuccess(json) {
-		console.log('Successfully updated team members')
+		//console.log('Successfully updated team members')
 	}
 
 	function teamMembersUpdateFailed(json) {
-		console.log('Failed to update team members')
+		//console.log('Failed to update team members')
 	}
 
 	function updateTeamMembers(teamMembers) {
@@ -198,11 +198,11 @@ define(function(require) {
 			teamMembers: teamMembers
 		});
 
-		console.log('Successfully removed team member');
+		//console.log('Successfully removed team member');
 	}
 
 	function teamMemberRemoveFailed(json) {
-		console.log('Failed to remove team member');
+		//console.log('Failed to remove team member');
 	}
 
 	function onMemberRemoved(teamMemberName) {
