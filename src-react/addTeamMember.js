@@ -23,7 +23,7 @@ define(function(require) {
 
 			return (
 				<div style={style}>
-					<textarea placeholder='Insert User Name...' style={textareaStyle} ref='textarea'/>
+					<textarea disabled={this.props.disabled} placeholder='Insert User Name...' style={textareaStyle} ref='textarea'/>
 					<button disabled={this.props.disabled} style={buttonStyle} onClick={this._handleClick}>Add User</button>
 				</div>
 			);

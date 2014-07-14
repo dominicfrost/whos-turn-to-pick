@@ -20,20 +20,24 @@ define(function(require) {
 
 
 		componentWillReceiveProps: function(nextProps) {
+			var pickerDisabled = false;
+			var addMemberDisabled = false;
 			if (nextProps.currentPicker && new Date() - new Date(nextProps.currentPicker.lastPicked) < PICK_THRESHOLD ||
 				nextProps.teamMembers.length === 0) {
-				this.setState({
-					pickerDisabled: true
-				});
-			} else {
-				this.setState({
-					pickerDisabled: false
-				});
+				pickerDisabled = true;
 			}
+
+			if (nextProps.currentTeam === '' || nextProps.currentTeam === '-') {
+				addMemberDisabled = true;
+			}
+
+			this.setState({
+				pickerDisabled: pickerDisabled,
+				addMemberDisabled: addMemberDisabled
+			});	
 		},
 
 		render: function() {
-
 			return (
 				<div>
 					<TeamMembersList

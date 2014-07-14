@@ -3,7 +3,7 @@ define(function(require) {
 	'use strict';
 	var React = require('../tools/react');
 
-	var uniqueKey = 10000;
+	var uniqueKey = 0;
 
 	var teamMembersList = React.createClass({displayName: 'teamMembersList',
 		render: function() {
@@ -48,7 +48,7 @@ define(function(require) {
 			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
-					return React.DOM.div(null, 
+					return React.DOM.div( {key:'canPick_' + uniqueKey++}, 
 								teamMember.name,
 								React.DOM.button( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
@@ -56,9 +56,9 @@ define(function(require) {
 			});
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
-					return React.DOM.div(null, 
+					return React.DOM.div( {key:'cantPick_' + uniqueKey++}, 
 								teamMember.name, " ", self.formatDate(teamMember.lastPicked),
-								href( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
+								React.DOM.button( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
 				}
 			});

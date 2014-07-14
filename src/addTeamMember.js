@@ -23,7 +23,7 @@ define(function(require) {
 
 			return (
 				React.DOM.div( {style:style}, 
-					React.DOM.textarea( {placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
+					React.DOM.textarea( {disabled:this.props.disabled, placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
 					React.DOM.button( {disabled:this.props.disabled, style:buttonStyle, onClick:this._handleClick}, "Add User")
 				)
 			);
