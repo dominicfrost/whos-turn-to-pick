@@ -7,18 +7,32 @@ define(function(require) {
 
 	var teamMembersList = React.createClass({
 		render: function() {
-			var p1Style = {
+			var pStyle = {
 				position: 'fixed',
-				left: '400px'
+				left: '400px',
+				top: '20px'
+			};
+
+			var p1Style = {
+				position: 'absolute',
+				top: '40px',
+				width: '300px'
 			};
 
 			var p2Style = {
-				position: 'fixed',
-				left: '700px'
+				position: 'absolute',
+				top: '40px',
+				left: '300px',
+				width: '300px'
 			};
 
 			var buttonStyle =  {
 				'margin-left': '15px'
+			};
+
+			var teamNameStyle = {
+				'font-size': '25px',
+				'font-weight': 'bold'
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
@@ -36,7 +50,7 @@ define(function(require) {
 				if (!teamMember.hasPicked) {
 					return <div>
 								{teamMember.name}
-								<button style={buttonStyle} onClick={self._handleClick}>x</button>
+								<button style={buttonStyle} onClick={self._handleMemberRemoved}>x</button>
 							</div>
 				}
 			});
@@ -44,13 +58,24 @@ define(function(require) {
 				if (teamMember.hasPicked) {
 					return <div>
 								{teamMember.name} {self.formatDate(teamMember.lastPicked)}
-								<button style={buttonStyle} onClick={self._handleClick}>x</button>
+								<href style={buttonStyle} onClick={self._handleMemberRemoved}>x</href>
 							</div>
 				}
 			});
 
+			var currentTeamDiv = <div>
+									<span style={teamNameStyle}>Team: n/a</span>
+								</div>;
+			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
+				currentTeamDiv = <div>
+									<span style={teamNameStyle}>Team: {this.props.currentTeam}</span>
+									<button style={buttonStyle} onClick={this._handleTeamRemoved}>Remove Team</button>
+								</div>;
+			}
+
 			return (
-				<div>
+				<div style={pStyle}>
+					{currentTeamDiv}
 					<div style={p1Style}>
 						<h3> Can Choose </h3>
 						{canPick}
@@ -63,7 +88,11 @@ define(function(require) {
 			);
 		},
 
-		_handleClick: function(event, b) {
+		_handleTeamRemoved: function() {
+			this.props.onRemoveTeam(this.props.currentTeam);
+		},
+
+		_handleMemberRemoved: function(event) {
 			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
 		},
 		

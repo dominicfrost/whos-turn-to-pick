@@ -7,18 +7,32 @@ define(function(require) {
 
 	var teamMembersList = React.createClass({displayName: 'teamMembersList',
 		render: function() {
-			var p1Style = {
+			var pStyle = {
 				position: 'fixed',
-				left: '400px'
+				left: '400px',
+				top: '20px'
+			};
+
+			var p1Style = {
+				position: 'absolute',
+				top: '40px',
+				width: '300px'
 			};
 
 			var p2Style = {
-				position: 'fixed',
-				left: '700px'
+				position: 'absolute',
+				top: '40px',
+				left: '300px',
+				width: '300px'
 			};
 
 			var buttonStyle =  {
 				'margin-left': '15px'
+			};
+
+			var teamNameStyle = {
+				'font-size': '25px',
+				'font-weight': 'bold'
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
@@ -36,7 +50,7 @@ define(function(require) {
 				if (!teamMember.hasPicked) {
 					return React.DOM.div(null, 
 								teamMember.name,
-								React.DOM.button( {style:buttonStyle, onClick:self._handleClick}, "x")
+								React.DOM.button( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
 				}
 			});
@@ -44,13 +58,24 @@ define(function(require) {
 				if (teamMember.hasPicked) {
 					return React.DOM.div(null, 
 								teamMember.name, " ", self.formatDate(teamMember.lastPicked),
-								React.DOM.button( {style:buttonStyle, onClick:self._handleClick}, "x")
+								href( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
 				}
 			});
 
+			var currentTeamDiv = React.DOM.div(null, 
+									React.DOM.span( {style:teamNameStyle}, "Team: n/a")
+								);
+			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
+				currentTeamDiv = React.DOM.div(null, 
+									React.DOM.span( {style:teamNameStyle}, "Team: ", this.props.currentTeam),
+									React.DOM.button( {style:buttonStyle, onClick:this._handleTeamRemoved}, "Remove Team")
+								);
+			}
+
 			return (
-				React.DOM.div(null, 
+				React.DOM.div( {style:pStyle}, 
+					currentTeamDiv,
 					React.DOM.div( {style:p1Style}, 
 						React.DOM.h3(null,  " Can Choose " ),
 						canPick
@@ -63,7 +88,11 @@ define(function(require) {
 			);
 		},
 
-		_handleClick: function(event, b) {
+		_handleTeamRemoved: function() {
+			this.props.onRemoveTeam(this.props.currentTeam);
+		},
+
+		_handleMemberRemoved: function(event) {
 			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
 		},
 		

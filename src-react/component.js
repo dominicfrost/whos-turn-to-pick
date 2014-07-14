@@ -37,23 +37,25 @@ define(function(require) {
 			return (
 				<div>
 					<TeamMembersList
+						currentTeam={this.props.currentTeam}
 						teamMembers={this.props.teamMembers}
-						onMemberRemoved={this._onMemberRemoved}
+						onMemberRemoved={this.props.onMemberRemoved}
+						onRemoveTeam={this.props.onRemoveTeam}
 					/>
 					<Picker
 						teamMembers={this.props.teamMembers}
-						onMemberPick={this._onMemberPick}
+						onMemberPick={this.props.onMemberPick}
 						currentPicker={this.props.currentPicker}
-						resetBucket={this._resetBucket}
+						resetBucket={this.props.resetBucket}
 						disabled={this.state.pickerDisabled}
 					/>
 					<AddTeamMember
 						disabled={this.state.addMemberDisabled}
-						onMemberAdded={this._onMemberAdded}
+						onMemberAdded={this.props.onMemberAdded}
 					/>
 					<TeamList
 						teams={this.props.teams}
-						onCreateTeam={this._onCreateTeam}
+						onCreateTeam={this.props.onCreateTeam}
 						onSelectionChange={this._onSelectionChange}
 					/>
 
@@ -84,26 +86,6 @@ define(function(require) {
 				pickerDisabled: pickerDisabled
 			});
 		},
-
-		_onMemberRemoved: function(teamMember) {
-			this.props.onMemberRemoved(teamMember);
-		},
-
-		_onCreateTeam: function(teamName) {
-			this.props.onCreateTeam(teamName);
-		},
-
-		_onMemberPick: function(teamMember) {
-			this.props.onMemberPick(teamMember);
-		},
-
-		_onMemberAdded: function(newTeamMember) {
-			this.props.onMemberAdded(newTeamMember);
-		},
-
-		_resetBucket: function() {
-			this.props.resetBucket();
-		}
 	});
 
 	return mainComponent;

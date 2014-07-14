@@ -34,6 +34,11 @@ define(function(require) {
 
 	function teamCreatedSuccess(json) {
 		//console.log('team successfully created!');
+		teams.push(json.team);
+
+		component.setProps({
+			teams: teams
+		});
 	}
 
 	function teamCreatedFailed() {
@@ -45,8 +50,6 @@ define(function(require) {
 			name: teamName
 		}
 
-		teams.push(newTeam);
-
 		$.ajax({
             url: '/createTeamHandler',
             data: JSON.stringify(newTeam),
@@ -55,16 +58,55 @@ define(function(require) {
             success: teamCreatedSuccess,
             error: teamCreatedFailed
         });
+	}
+
+	function teamRemoveSuccess(json) {
+		//console.log('team successfully created!');
+		var teamName = json.team.name;
+		var team = {};
+		for (var i = 0; i < teams.length; i++) {
+			if (teams[i].name === teamName) {
+				team = teams[i];
+				break;
+			}
+		}
+
+		var index = teams.indexOf(team);
+
+		teams.splice(index, 1);
 
 		component.setProps({
-			teams: teams
+			teams: teams,
+			currentTeam: '',
+			teamMembers: []
 		});
+	}
+
+	function teamRemoveFailed() {
+		//console.log('Failed to create team!')
+	}
+
+	function onRemoveTeam(teamName) {
+		var newTeam = {
+			name: teamName
+		};
+
+		$.ajax({
+            url: '/removeTeamHandler',
+            data: JSON.stringify(newTeam),
+            type: 'POST',
+            dataType : 'json',
+            success: teamRemoveSuccess,
+            error: teamRemoveFailed
+        });
 	}
 
 	function getTeamMembersSuccess(json) {
 		//console.log('team successfully retrieved!');
 
 		teamMembers = json.teamMembers || [];
+
+		currentTeam = json.team.name;
 
 		var recentPick = 0;
 		var memberPicked;
@@ -80,7 +122,8 @@ define(function(require) {
 
 		component.setProps({
 			teamMembers: teamMembers,
-			currentPicker: currentPicker
+			currentPicker: currentPicker,
+			currentTeam: currentTeam
 		});
 	}
 
@@ -93,8 +136,6 @@ define(function(require) {
 		var team = {
 			name: teamName
 		};
-
-		currentTeam = teamName;
 
 		$.ajax({
             url: '/getTeamMembersHandler',
@@ -192,7 +233,17 @@ define(function(require) {
 	}
 
 	function teamMemberRemoveSuccess(json) {
-		var index = teamMembers.indexOf(json.teamMember);
+		var teamMemberName = json.teamMember.name;
+		var teamMember = {};
+		for (var i = 0; i < teamMembers.length; i++) {
+			if (teamMembers[i].name === teamMemberName) {
+				teamMember = teamMembers[i];
+				break;
+			}
+		}
+
+		var index = teamMembers.indexOf(teamMember);
+
 		teamMembers.splice(index, 1);
 		component.setProps({
 			teamMembers: teamMembers
@@ -244,6 +295,7 @@ define(function(require) {
 			onMemberRemoved: onMemberRemoved,
 			onMemberPick: onMemberPick,
 			onCreateTeam: onCreateTeam,
+			onRemoveTeam: onRemoveTeam,
 			resetBucket: resetBucket
 		});
 		React.renderComponent(

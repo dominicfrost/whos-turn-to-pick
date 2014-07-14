@@ -11,10 +11,7 @@ type LoginResponse struct {
 	Author		string		`json:"author"`
 }
 
-type Team struct {
-	Name 		string		`json:"name"`
-}
-
+// Team Member
 type TeamMember struct {
 	Name 		string		`json:"name"`
 	Team 		string		`json:"team"`
@@ -22,19 +19,15 @@ type TeamMember struct {
 	HasPicked	bool		`json:"hasPicked"`
 }
 
-type getTeamMembersResponse struct {
-	Result		string			`json:"result"`
-	TeamMembers []TeamMember 	`json:"teamMembers"`
-}
-
-type getTeamsResponse struct {
-	Result		string		`json:"result"`
-	Teams 		[]Team 		`json:"teams"`
-}
-
 type addTeamMemberResponse struct {
 	Result		string		`json:"result"`
 	TeamMember 	TeamMember 	`json:"teamMember"`
+}
+
+type getTeamMembersResponse struct {
+	Result		string			`json:"result"`
+	TeamMembers []TeamMember 	`json:"teamMembers"`
+	Team 		Team 			`json:"team"`
 }
 
 type updateTeamMemberResponse struct {
@@ -46,8 +39,24 @@ type removeTeamMemberResponse struct {
 	TeamMember 	TeamMember 	`json:"teamMember"`
 }
 
+// Teams
+type Team struct {
+	Name 		string		`json:"name"`
+}
+
+type getTeamsResponse struct {
+	Result		string		`json:"result"`
+	Teams 		[]Team 		`json:"teams"`
+}
+
 type createTeamResponse struct {
 	Result		string		`json:"result"`
+	Team 		Team 		`json:"team"`
+}
+
+type removeTeamResponse struct {
+	Result		string		`json:"result"`
+	Team 		Team 		`json:"team"`
 }
 
 func init() {
@@ -60,6 +69,7 @@ func init() {
 
     http.HandleFunc("/createTeamHandler", createTeamHandler)
     http.HandleFunc("/getTeamsHandler", getTeamsHandler)
+    http.HandleFunc("/removeTeamHandler", removeTeamHandler)
 }
 
 func loginHandler(w http.ResponseWriter, r *http.Request) {
@@ -128,6 +138,8 @@ func getTeamMembersHandler(w http.ResponseWriter, r *http.Request) {
 		c.Infof("Failed to query for all team members", err)
 		SendErrorResponse(w, "Failed to query for all team members", err)
 	}
+
+	response.Team = team
 
 	SendJSONResponse(w, response)
 }
@@ -230,6 +242,8 @@ func createTeamHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	response.Team = newTeam
+
 	SendJSONResponse(w, response)
 }
 
@@ -261,6 +275,51 @@ func getTeams(c appengine.Context) ([]Team, error) {
 	}
 
 	return teams, nil
+}
+
+func removeTeamHandler(w http.ResponseWriter, r *http.Request) {
+	var response removeTeamResponse
+	var removedTeam Team
+
+	var teamMembers []TeamMember
+
+	response.Result = "OK"
+
+	c := appengine.NewContext(r)
+	err := ParseJSONRequest(r, &removedTeam)
+
+	if err != nil {
+		c.Infof("Failed to parse JSON request", err)
+		SendErrorResponse(w, "Failed to Parse JSON Request", err)
+		return
+	}
+
+	key := datastore.NewKey(c, "Team", removedTeam.Name, 0, nil)
+	err = datastore.Delete(c, key)
+
+	if err != nil {
+		c.Infof("Failed to delete team from the datastore")
+		SendErrorResponse(w, "Failed to delete team from the datastore", err)
+	}
+
+	q := datastore.NewQuery("TeamMember").Filter("Team =", removedTeam.Name)
+	keys, err := q.GetAll(c, &teamMembers)
+
+	if err != nil {
+		c.Infof("Failed to get team members from the datastore")
+		SendErrorResponse(w, "Failed to get team members from the datastore", err)
+	}
+
+	err = datastore.DeleteMulti(c, keys)
+
+	if err != nil {
+		c.Infof("Failed to delete team members from the datastore")
+		SendErrorResponse(w, "Failed to delete team members from the datastore", err)
+	}
+
+	response.Team = removedTeam
+
+	SendJSONResponse(w, response)
 }
 
 
