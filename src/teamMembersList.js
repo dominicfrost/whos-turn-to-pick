@@ -7,32 +7,8 @@ define(function(require) {
 
 	var teamMembersList = React.createClass({displayName: 'teamMembersList',
 		render: function() {
-			var pStyle = {
-				position: 'fixed',
-				left: '400px',
-				top: '520px'
-			};
-
-			var p1Style = {
-				position: 'absolute',
-				top: '40px',
-				width: '300px'
-			};
-
-			var p2Style = {
-				position: 'absolute',
-				top: '40px',
-				left: '300px',
-				width: '300px'
-			};
-
 			var buttonStyle =  {
 				'margin-left': '15px'
-			};
-
-			var teamNameStyle = {
-				'font-size': '25px',
-				'font-weight': 'bold'
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {

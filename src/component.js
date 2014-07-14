@@ -64,12 +64,14 @@ define(function(require) {
 					),
 					
 					React.DOM.div( {className:"row"}, 
-						Picker(
-							{teamMembers:this.props.teamMembers,
-							onMemberPick:this.props.onMemberPick,
-							currentPicker:this.props.currentPicker,
-							resetBucket:this.props.resetBucket,
-							disabled:this.state.pickerDisabled}
+						React.DOM.div( {className:"col-sm-4"}, 
+							Picker(
+								{teamMembers:this.props.teamMembers,
+								onMemberPick:this.props.onMemberPick,
+								currentPicker:this.props.currentPicker,
+								resetBucket:this.props.resetBucket,
+								disabled:this.state.pickerDisabled}
+							)
 						)
 					)
 					

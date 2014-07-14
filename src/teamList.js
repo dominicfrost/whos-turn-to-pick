@@ -16,10 +16,6 @@ define(function(require) {
 		},
 
 		render: function() {
-			var style = {
-				position: 'fixed',
-				top: '570px'
-			};
 
 			var textareaStyle = {
 				resize: 'none',

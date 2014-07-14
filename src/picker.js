@@ -5,11 +5,6 @@ define(function(require) {
 
 	var picker = React.createClass({displayName: 'picker',
 		render: function() {
-			var style = {
-				position: 'fixed',
-				top: '670px'
-			};
-
 			var lastPickerDate = '';
 			for (var i = 0, len = this.props.teamMembers.length; i < len; i++) {
 				if (this.props.currentPicker && this.props.currentPicker.name === this.props.teamMembers[i].name) {
@@ -21,7 +16,7 @@ define(function(require) {
 			var currentPicker = this.props.currentPicker ? this.props.currentPicker.name : '';
 
 			return (
-				React.DOM.div( {style:style}, 
+				React.DOM.div(null, 
 					React.DOM.button( {type:"button", className:"btn btn-lg btn-primary", disabled:this.props.disabled, onClick:this._handleClick}, "Whose Picking Lunch?"),
 					React.DOM.h4(null, "Last To Choose: ", currentPicker, " ", lastPickerDate)
 				)

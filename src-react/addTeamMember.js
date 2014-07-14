@@ -6,10 +6,6 @@ define(function(require) {
 	var addUser = React.createClass({
 
 		render: function() {
-			var style = {
-				position: 'fixed',
-				top: '620px'
-			};
 
 			var textareaStyle = {
 				resize: 'none',
