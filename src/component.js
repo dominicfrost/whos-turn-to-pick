@@ -41,7 +41,7 @@ define(function(require) {
 			return (
 				React.DOM.div(null, 
 					React.DOM.div( {className:"row"}, 
-						React.DOM.div( {className:"col-sm-4"}, 
+						React.DOM.div( {className: "col-sm-4"}, 
 							TeamList(
 								{teams:this.props.teams,
 								onCreateTeam:this.props.onCreateTeam,

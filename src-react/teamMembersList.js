@@ -8,7 +8,13 @@ define(function(require) {
 	var teamMembersList = React.createClass({
 		render: function() {
 			var buttonStyle =  {
-				'margin-left': '15px'
+				position: 'absolute',
+				'right': '5px'
+			};
+
+			var removeTeamButtonStyle =  {
+				position: 'absolute',
+				'right': '22px'
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
@@ -47,7 +53,7 @@ define(function(require) {
 			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
 				currentTeamDiv = <div>
 									Team: {this.props.currentTeam}
-									<button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={this._handleTeamRemoved}>Remove Team</button>
+									<button type="button" className="btn btn-xs btn-primary" style={removeTeamButtonStyle} onClick={this._handleTeamRemoved}>Remove Team</button>
 								</div>;
 			}
 

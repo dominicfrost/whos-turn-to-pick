@@ -41,7 +41,7 @@ define(function(require) {
 			return (
 				<div>
 					<div className="row">
-						<div className="col-sm-4">
+						<div className ="col-sm-4">
 							<TeamList
 								teams={this.props.teams}
 								onCreateTeam={this.props.onCreateTeam}
