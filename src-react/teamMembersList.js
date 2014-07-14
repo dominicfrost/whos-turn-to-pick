@@ -89,11 +89,18 @@ define(function(require) {
 		},
 
 		_handleTeamRemoved: function() {
-			this.props.onRemoveTeam(this.props.currentTeam);
+			var response = confirm('Remove ' + this.props.currentTeam + ' from the team list?');
+			if (response) {
+				this.props.onRemoveTeam(this.props.currentTeam);
+			}
 		},
 
 		_handleMemberRemoved: function(event) {
-			this.props.onMemberRemoved(event.target.parentElement.firstChild.innerText);
+			var name = event.target.parentElement.firstChild.innerText;
+			var response = confirm('Remove ' + name + ' from the team?');
+			if (response) {
+				this.props.onMemberRemoved(name);
+			}
 		},
 		
 		formatDate: function(dateString) {
