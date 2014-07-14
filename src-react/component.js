@@ -40,29 +40,39 @@ define(function(require) {
 		render: function() {
 			return (
 				<div>
-					<TeamMembersList
-						currentTeam={this.props.currentTeam}
-						teamMembers={this.props.teamMembers}
-						onMemberRemoved={this.props.onMemberRemoved}
-						onRemoveTeam={this.props.onRemoveTeam}
-					/>
-					<Picker
-						teamMembers={this.props.teamMembers}
-						onMemberPick={this.props.onMemberPick}
-						currentPicker={this.props.currentPicker}
-						resetBucket={this.props.resetBucket}
-						disabled={this.state.pickerDisabled}
-					/>
-					<AddTeamMember
-						disabled={this.state.addMemberDisabled}
-						onMemberAdded={this.props.onMemberAdded}
-					/>
-					<TeamList
-						teams={this.props.teams}
-						onCreateTeam={this.props.onCreateTeam}
-						onSelectionChange={this._onSelectionChange}
-					/>
+					<div className="row">
+						<div className="col-sm-4">
+							<TeamList
+								teams={this.props.teams}
+								onCreateTeam={this.props.onCreateTeam}
+								onSelectionChange={this._onSelectionChange}
+							/>
 
+							<AddTeamMember
+								disabled={this.state.addMemberDisabled}
+								onMemberAdded={this.props.onMemberAdded}
+							/>
+						</div>
+						<div className="col-sm-8">
+							<TeamMembersList
+								currentTeam={this.props.currentTeam}
+								teamMembers={this.props.teamMembers}
+								onMemberRemoved={this.props.onMemberRemoved}
+								onRemoveTeam={this.props.onRemoveTeam}
+							/>
+						</div>
+					</div>
+					
+					<div className="row">
+						<Picker
+							teamMembers={this.props.teamMembers}
+							onMemberPick={this.props.onMemberPick}
+							currentPicker={this.props.currentPicker}
+							resetBucket={this.props.resetBucket}
+							disabled={this.state.pickerDisabled}
+						/>
+					</div>
+					
 				</div>
 			);
 		},

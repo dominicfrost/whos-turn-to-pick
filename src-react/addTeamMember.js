@@ -8,23 +8,31 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '120px'
+				top: '620px'
 			};
 
 			var textareaStyle = {
 				resize: 'none',
-				height: '14px'
+				height: '24px'
 			};
 
 			var buttonStyle = {
 				position: 'relative',
-				top: '-5px'
+				top: '-8px',
+				'margin-left': '15px'
 			};
 
 			return (
-				<div style={style}>
-					<textarea disabled={this.props.disabled} placeholder='Insert User Name...' style={textareaStyle} ref='textarea'/>
-					<button disabled={this.props.disabled} style={buttonStyle} onClick={this._handleClick}>Add User</button>
+				<div className="panel panel-default">
+	            	<div className="panel-heading">
+	              		<h3 className="panel-title">Team-Member Manager</h3>
+	            	</div>
+            		<div className="panel-body">
+						<div>
+							<textarea disabled={this.props.disabled} placeholder='Insert User Name...' style={textareaStyle} ref='textarea'/>
+							<button type="button" className="btn btn-xs btn-primary" disabled={this.props.disabled} style={buttonStyle} onClick={this._handleClick}>Add User</button>
+						</div>
+					</div>
 				</div>
 			);
 		},

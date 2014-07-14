@@ -53,6 +53,14 @@ handlers:
   static_files: bower_components/react/react.js
   upload: bower_components/react/react.js
 
+- url: /tools/bootstrap.js
+  static_files: bower_components/bootstrap/dist/js/bootstrap.js
+  upload: bower_components/bootstrap/dist/js/bootstrap.js
+
+- url: /tools/bootstrap.css
+  static_files: bower_components/bootstrap/dist/css/bootstrap.css
+  upload: bower_components/bootstrap/dist/css/bootstrap.css
+
 # Server Side
 
 - url: /

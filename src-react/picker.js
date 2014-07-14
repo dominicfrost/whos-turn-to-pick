@@ -7,7 +7,7 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '170px'
+				top: '670px'
 			};
 
 			var lastPickerDate = '';
@@ -22,8 +22,8 @@ define(function(require) {
 
 			return (
 				<div style={style}>
-					<button disabled={this.props.disabled} onClick={this._handleClick}>Whose Picking Lunch?</button>
-					<p>Last To Choose: {currentPicker} {lastPickerDate}</p>
+					<button type="button" className="btn btn-lg btn-primary" disabled={this.props.disabled} onClick={this._handleClick}>Whose Picking Lunch?</button>
+					<h4>Last To Choose: {currentPicker} {lastPickerDate}</h4>
 				</div>
 			);
 		},

@@ -7,7 +7,7 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '170px'
+				top: '670px'
 			};
 
 			var lastPickerDate = '';
@@ -22,8 +22,8 @@ define(function(require) {
 
 			return (
 				React.DOM.div( {style:style}, 
-					React.DOM.button( {disabled:this.props.disabled, onClick:this._handleClick}, "Whose Picking Lunch?"),
-					React.DOM.p(null, "Last To Choose: ", currentPicker, " ", lastPickerDate)
+					React.DOM.button( {type:"button", className:"btn btn-lg btn-primary", disabled:this.props.disabled, onClick:this._handleClick}, "Whose Picking Lunch?"),
+					React.DOM.h4(null, "Last To Choose: ", currentPicker, " ", lastPickerDate)
 				)
 			);
 		},

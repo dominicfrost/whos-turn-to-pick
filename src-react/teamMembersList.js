@@ -10,7 +10,7 @@ define(function(require) {
 			var pStyle = {
 				position: 'fixed',
 				left: '400px',
-				top: '20px'
+				top: '520px'
 			};
 
 			var p1Style = {
@@ -48,43 +48,53 @@ define(function(require) {
 			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
-					return <div key={'canPick_' + uniqueKey++}>
+					return <li className="list-group-item" key={'canPick_' + uniqueKey++}>
 								{teamMember.name}
-								<button style={buttonStyle} onClick={self._handleMemberRemoved}>x</button>
-							</div>
+								<button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={self._handleMemberRemoved}>x</button>
+							</li>
 				}
 			});
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
-					return <div key={'cantPick_' + uniqueKey++}>
+					return <li className="list-group-item" key={'cantPick_' + uniqueKey++}>
 								{teamMember.name} {self.formatDate(teamMember.lastPicked)}
-								<button style={buttonStyle} onClick={self._handleMemberRemoved}>x</button>
-							</div>
+								<button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={self._handleMemberRemoved}>x</button>
+							</li>
 				}
 			});
 
+
 			var currentTeamDiv = <div>
-									<span style={teamNameStyle}>Team: n/a</span>
+									Team: n/a
 								</div>;
+
 			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
 				currentTeamDiv = <div>
-									<span style={teamNameStyle}>Team: {this.props.currentTeam}</span>
-									<button style={buttonStyle} onClick={this._handleTeamRemoved}>Remove Team</button>
+									Team: {this.props.currentTeam}
+									<button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={this._handleTeamRemoved}>Remove Team</button>
 								</div>;
 			}
 
 			return (
-				<div style={pStyle}>
-					{currentTeamDiv}
-					<div style={p1Style}>
-						<h3> Can Choose </h3>
-						{canPick}
-					</div>
-					<div style={p2Style}>
-						<h3> Already Chosen </h3>
-						{canNotPick}
-					</div>
-				</div>
+				<div className="panel panel-default">
+	            	<div className="panel-heading">
+	              		<h3 className="panel-title">{currentTeamDiv}</h3>
+	            	</div>
+            		<div className="panel-body">
+            			<div className="col-sm-6">
+            				<h4>Can Pick</h4>
+							<ul className="list-group">
+								{canPick}
+					        </ul>
+				        </div>
+				        <div className="col-sm-6">
+				        	<h4>Already Chosen</h4>
+					        <ul className="list-group">
+								{canNotPick}
+					        </ul>
+				        </div>
+            		</div>
+        		</div>
 			);
 		},
 

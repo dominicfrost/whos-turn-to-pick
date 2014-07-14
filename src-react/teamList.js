@@ -18,17 +18,18 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '70px'
+				top: '570px'
 			};
 
 			var textareaStyle = {
 				resize: 'none',
-				height: '14px'
+				height: '24px'
 			};
 
 			var buttonStyle = {
 				position: 'relative',
-				top: '-5px'
+				top: '-8px',
+				'margin-left':'15px'
 			};
 
 			var teamsList = this.props.teams.map(function(team, index) {
@@ -36,15 +37,19 @@ define(function(require) {
 			});
 
 			return (
-				<div style={style} >
+			<div className="panel panel-default">
+            	<div className="panel-heading">
+              		<h3 className="panel-title">Team Manager</h3>
+            	</div>
+            	<div className="panel-body">
 					<textarea placeholder="Insert Team Name..." style={textareaStyle} ref="textarea" onChange={this._handleTextChange} value={this.state.textValue}></textarea>
-					<button disabled={this.state.createTeamDisabled} style={buttonStyle} onClick={this._handleClick}>Create Team</button>
+					<button type="button" className="btn btn-xs btn-primary" disabled={this.state.createTeamDisabled} style={buttonStyle} onClick={this._handleClick}>Create Team</button>
 					<select style={buttonStyle} value={this.state.value} ref="select" onChange={this._handleSelectionChange}>
 						<option key="team_-1" value="-">-</option>
 						{teamsList}
 					</select>
-
-				</div>
+            	</div>
+          	</div>
 			);
 		},
 

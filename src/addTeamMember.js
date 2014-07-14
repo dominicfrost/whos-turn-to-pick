@@ -8,23 +8,31 @@ define(function(require) {
 		render: function() {
 			var style = {
 				position: 'fixed',
-				top: '120px'
+				top: '620px'
 			};
 
 			var textareaStyle = {
 				resize: 'none',
-				height: '14px'
+				height: '24px'
 			};
 
 			var buttonStyle = {
 				position: 'relative',
-				top: '-5px'
+				top: '-8px',
+				'margin-left': '15px'
 			};
 
 			return (
-				React.DOM.div( {style:style}, 
-					React.DOM.textarea( {disabled:this.props.disabled, placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
-					React.DOM.button( {disabled:this.props.disabled, style:buttonStyle, onClick:this._handleClick}, "Add User")
+				React.DOM.div( {className:"panel panel-default"}, 
+	            	React.DOM.div( {className:"panel-heading"}, 
+	              		React.DOM.h3( {className:"panel-title"}, "Team-Member Manager")
+	            	),
+            		React.DOM.div( {className:"panel-body"}, 
+						React.DOM.div(null, 
+							React.DOM.textarea( {disabled:this.props.disabled, placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
+							React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", disabled:this.props.disabled, style:buttonStyle, onClick:this._handleClick}, "Add User")
+						)
+					)
 				)
 			);
 		},

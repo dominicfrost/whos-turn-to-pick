@@ -10,7 +10,7 @@ define(function(require) {
 			var pStyle = {
 				position: 'fixed',
 				left: '400px',
-				top: '20px'
+				top: '520px'
 			};
 
 			var p1Style = {
@@ -48,43 +48,53 @@ define(function(require) {
 			var self = this;
 			var canPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (!teamMember.hasPicked) {
-					return React.DOM.div( {key:'canPick_' + uniqueKey++}, 
+					return React.DOM.li( {className:"list-group-item", key:'canPick_' + uniqueKey++}, 
 								teamMember.name,
-								React.DOM.button( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
+								React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
 				}
 			});
 			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
 				if (teamMember.hasPicked) {
-					return React.DOM.div( {key:'cantPick_' + uniqueKey++}, 
+					return React.DOM.li( {className:"list-group-item", key:'cantPick_' + uniqueKey++}, 
 								teamMember.name, " ", self.formatDate(teamMember.lastPicked),
-								React.DOM.button( {style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
+								React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
 							)
 				}
 			});
 
+
 			var currentTeamDiv = React.DOM.div(null, 
-									React.DOM.span( {style:teamNameStyle}, "Team: n/a")
+									"Team: n/a"
 								);
+
 			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
 				currentTeamDiv = React.DOM.div(null, 
-									React.DOM.span( {style:teamNameStyle}, "Team: ", this.props.currentTeam),
-									React.DOM.button( {style:buttonStyle, onClick:this._handleTeamRemoved}, "Remove Team")
+									"Team: ", this.props.currentTeam,
+									React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:buttonStyle, onClick:this._handleTeamRemoved}, "Remove Team")
 								);
 			}
 
 			return (
-				React.DOM.div( {style:pStyle}, 
-					currentTeamDiv,
-					React.DOM.div( {style:p1Style}, 
-						React.DOM.h3(null,  " Can Choose " ),
-						canPick
-					),
-					React.DOM.div( {style:p2Style}, 
-						React.DOM.h3(null,  " Already Chosen " ),
-						canNotPick
-					)
-				)
+				React.DOM.div( {className:"panel panel-default"}, 
+	            	React.DOM.div( {className:"panel-heading"}, 
+	              		React.DOM.h3( {className:"panel-title"}, currentTeamDiv)
+	            	),
+            		React.DOM.div( {className:"panel-body"}, 
+            			React.DOM.div( {className:"col-sm-6"}, 
+            				React.DOM.h4(null, "Can Pick"),
+							React.DOM.ul( {className:"list-group"}, 
+								canPick
+					        )
+				        ),
+				        React.DOM.div( {className:"col-sm-6"}, 
+				        	React.DOM.h4(null, "Already Chosen"),
+					        React.DOM.ul( {className:"list-group"}, 
+								canNotPick
+					        )
+				        )
+            		)
+        		)
 			);
 		},
 
