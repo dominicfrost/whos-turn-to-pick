@@ -17,17 +17,6 @@ define(function(require) {
 
 		render: function() {
 
-			var textareaStyle = {
-				resize: 'none',
-				height: '24px'
-			};
-
-			var buttonStyle = {
-				position: 'relative',
-				top: '-8px',
-				'margin-left':'15px'
-			};
-
 			var teamsList = this.props.teams.map(function(team, index) {
 				return React.DOM.option( {key:'team_' + uniqueKey++, value:team.name}, team.name)
 			});
@@ -37,12 +26,14 @@ define(function(require) {
             	React.DOM.div( {className:"panel-heading"}, 
               		React.DOM.h3( {className:"panel-title"}, "Team Manager")
             	),
-            	React.DOM.div( {className:"panel-body"}, 
-					React.DOM.textarea( {placeholder:"Insert Team Name...", style:textareaStyle, ref:"textarea", onChange:this._handleTextChange, value:this.state.textValue}),
-					React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", disabled:this.state.createTeamDisabled, style:buttonStyle, onClick:this._handleClick}, "Create Team"),
-					React.DOM.select( {style:buttonStyle, value:this.state.value, ref:"select", onChange:this._handleSelectionChange}, 
-						React.DOM.option( {key:"team_-1", value:"-"}, "-"),
-						teamsList
+            	React.DOM.div( {role:"form", className:"panel-body"}, 
+					React.DOM.input( {className:"form-group form-control", placeholder:"Insert Team Name...", ref:"textarea", onChange:this._handleTextChange, value:this.state.textValue}),
+					React.DOM.div( {className:"form-group"}, 
+						React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", disabled:this.state.createTeamDisabled, onClick:this._handleClick}, "Create Team"),
+						React.DOM.select( {value:this.state.value, ref:"select", onChange:this._handleSelectionChange}, 
+							React.DOM.option( {key:"team_-1", value:"-"}, "-"),
+							teamsList
+						)
 					)
             	)
           	)

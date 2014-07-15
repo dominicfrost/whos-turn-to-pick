@@ -7,26 +7,15 @@ define(function(require) {
 
 		render: function() {
 
-			var textareaStyle = {
-				resize: 'none',
-				height: '24px'
-			};
-
-			var buttonStyle = {
-				position: 'relative',
-				top: '-8px',
-				'margin-left': '15px'
-			};
-
 			return (
 				React.DOM.div( {className:"panel panel-default"}, 
 	            	React.DOM.div( {className:"panel-heading"}, 
 	              		React.DOM.h3( {className:"panel-title"}, "Team-Member Manager")
 	            	),
             		React.DOM.div( {className:"panel-body"}, 
-						React.DOM.div(null, 
-							React.DOM.textarea( {disabled:this.props.disabled, placeholder:"Insert User Name...", style:textareaStyle, ref:"textarea"}),
-							React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", disabled:this.props.disabled, style:buttonStyle, onClick:this._handleClick}, "Add User")
+						React.DOM.form( {role:"form"}, 
+							React.DOM.input( {type:"text", className:"form-group form-control", disabled:this.props.disabled, placeholder:"Insert User Name...", ref:"textarea"}),
+							React.DOM.button( {type:"button", className:"form-group btn btn-xs btn-primary", disabled:this.props.disabled, onClick:this._handleClick}, "Add User")
 						)
 					)
 				)

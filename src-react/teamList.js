@@ -17,17 +17,6 @@ define(function(require) {
 
 		render: function() {
 
-			var textareaStyle = {
-				resize: 'none',
-				height: '24px'
-			};
-
-			var buttonStyle = {
-				position: 'relative',
-				top: '-8px',
-				'margin-left':'15px'
-			};
-
 			var teamsList = this.props.teams.map(function(team, index) {
 				return <option key={'team_' + uniqueKey++} value={team.name}>{team.name}</option>
 			});
@@ -37,13 +26,15 @@ define(function(require) {
             	<div className="panel-heading">
               		<h3 className="panel-title">Team Manager</h3>
             	</div>
-            	<div className="panel-body">
-					<textarea placeholder="Insert Team Name..." style={textareaStyle} ref="textarea" onChange={this._handleTextChange} value={this.state.textValue}></textarea>
-					<button type="button" className="btn btn-xs btn-primary" disabled={this.state.createTeamDisabled} style={buttonStyle} onClick={this._handleClick}>Create Team</button>
-					<select style={buttonStyle} value={this.state.value} ref="select" onChange={this._handleSelectionChange}>
-						<option key="team_-1" value="-">-</option>
-						{teamsList}
-					</select>
+            	<div role="form" className="panel-body">
+					<input className="form-group form-control" placeholder="Insert Team Name..." ref="textarea" onChange={this._handleTextChange} value={this.state.textValue}></input>
+					<div className="form-group">
+						<button type="button" className="btn btn-xs btn-primary" disabled={this.state.createTeamDisabled} onClick={this._handleClick}>Create Team</button>
+						<select value={this.state.value} ref="select" onChange={this._handleSelectionChange}>
+							<option key="team_-1" value="-">-</option>
+							{teamsList}
+						</select>
+					</div>
             	</div>
           	</div>
 			);
