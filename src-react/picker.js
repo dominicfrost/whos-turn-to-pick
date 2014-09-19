@@ -17,14 +17,14 @@ define(function(require) {
 
 			return (
 				<div>
-					<button type="button" className="btn btn-lg btn-primary" disabled={this.props.disabled} onClick={this._handleClick}>Whose Picking Lunch?</button>
+					<button type="button" className="btn btn-lg btn-primary" disabled={this.props.disabled} onClick={this._handleClick}>{"Whose Picking Lunch?"}</button>
 					<h4>Last To Choose: {currentPicker} {lastPickerDate}</h4>
 				</div>
 			);
 		},
 
 		_handleClick: function() {
-			var canPickMembers = []
+			var canPickMembers = [];
 			var teamMembers = this.props.teamMembers;
 			for (var i = 0, len = teamMembers.length; i < len; i++) {
 				var teamMember = teamMembers[i];

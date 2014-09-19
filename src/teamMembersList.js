@@ -18,9 +18,9 @@ define(function(require) {
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
-				if (a.lastPicked < b.lastPicked) {
+				if (new Date(a.lastPicked).valueOf() < new Date(b.lastPicked).valueOf()) {
 					return -1;
-				} else if (a.lastPicked > b.lastPicked) {
+				} else if (new Date(a.lastPicked).valueOf() > new Date(b.lastPicked).valueOf()) {
 					return 1;
 				} else {
 					return 0;
@@ -28,19 +28,19 @@ define(function(require) {
 			});
 
 			var self = this;
-			var canPick = this.props.teamMembers.map(function(teamMember, index) {
+			var canPick = this.props.teamMembers.map(function(teamMember) {
 				if (!teamMember.hasPicked) {
-					return React.DOM.li( {className:"list-group-item", key:'canPick_' + uniqueKey++}, 
-								teamMember.name,
-								React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
+					return React.DOM.li({className: "list-group-item", key: 'canPick_' + uniqueKey++}, 
+								teamMember.name, 
+								React.DOM.button({type: "button", className: "btn btn-xs btn-primary", style: buttonStyle, onClick: self._handleMemberRemoved}, "x")
 							)
 				}
 			});
-			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
+			var canNotPick = this.props.teamMembers.map(function(teamMember) {
 				if (teamMember.hasPicked) {
-					return React.DOM.li( {className:"list-group-item", key:'cantPick_' + uniqueKey++}, 
-								teamMember.name, " ", self.formatDate(teamMember.lastPicked),
-								React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:buttonStyle, onClick:self._handleMemberRemoved}, "x")
+					return React.DOM.li({className: "list-group-item", key: 'cantPick_' + uniqueKey++}, 
+								teamMember.name, " ", self.formatDate(teamMember.lastPicked), 
+								React.DOM.button({type: "button", className: "btn btn-xs btn-primary", style: buttonStyle, onClick: self._handleMemberRemoved}, "x")
 							)
 				}
 			});
@@ -52,26 +52,26 @@ define(function(require) {
 
 			if (this.props.currentTeam && this.props.currentTeam !== '' && this.props.currentTeam !== '-') {
 				currentTeamDiv = React.DOM.div(null, 
-									"Team: ", this.props.currentTeam,
-									React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", style:removeTeamButtonStyle, onClick:this._handleTeamRemoved}, "Remove Team")
+									"Team: ", this.props.currentTeam, 
+									React.DOM.button({type: "button", className: "btn btn-xs btn-primary", style: removeTeamButtonStyle, onClick: this._handleTeamRemoved}, "Remove Team")
 								);
 			}
 
 			return (
-				React.DOM.div( {className:"panel panel-default"}, 
-	            	React.DOM.div( {className:"panel-heading"}, 
-	              		React.DOM.h3( {className:"panel-title"}, currentTeamDiv)
-	            	),
-            		React.DOM.div( {className:"panel-body"}, 
-            			React.DOM.div( {className:"col-sm-6"}, 
-            				React.DOM.h4(null, "Can Pick"),
-							React.DOM.ul( {className:"list-group"}, 
+				React.DOM.div({className: "panel panel-default"}, 
+	            	React.DOM.div({className: "panel-heading"}, 
+	              		React.DOM.h3({className: "panel-title"}, currentTeamDiv)
+	            	), 
+            		React.DOM.div({className: "panel-body"}, 
+            			React.DOM.div({className: "col-sm-6"}, 
+            				React.DOM.h4(null, "Can Pick"), 
+							React.DOM.ul({className: "list-group"}, 
 								canPick
 					        )
-				        ),
-				        React.DOM.div( {className:"col-sm-6"}, 
-				        	React.DOM.h4(null, "Already Chosen"),
-					        React.DOM.ul( {className:"list-group"}, 
+				        ), 
+				        React.DOM.div({className: "col-sm-6"}, 
+				        	React.DOM.h4(null, "Already Chosen"), 
+					        React.DOM.ul({className: "list-group"}, 
 								canNotPick
 					        )
 				        )

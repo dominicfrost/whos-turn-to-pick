@@ -8,14 +8,14 @@ define(function(require) {
 		render: function() {
 
 			return (
-				React.DOM.div( {className:"panel panel-default"}, 
-	            	React.DOM.div( {className:"panel-heading"}, 
-	              		React.DOM.h3( {className:"panel-title"}, "Team-Member Manager")
-	            	),
-            		React.DOM.div( {className:"panel-body"}, 
-						React.DOM.form( {role:"form"}, 
-							React.DOM.input( {type:"text", className:"form-group form-control", disabled:this.props.disabled, placeholder:"Insert User Name...", ref:"textarea"}),
-							React.DOM.button( {type:"button", className:"form-group btn btn-xs btn-primary", disabled:this.props.disabled, onClick:this._handleClick}, "Add User")
+				React.DOM.div({className: "panel panel-default"}, 
+	            	React.DOM.div({className: "panel-heading"}, 
+	              		React.DOM.h3({className: "panel-title"}, "Team-Member Manager")
+	            	), 
+            		React.DOM.div({className: "panel-body"}, 
+						React.DOM.form({role: "form"}, 
+							React.DOM.input({type: "text", className: "form-group form-control", disabled: this.props.disabled, placeholder: "Insert User Name...", ref: "textarea"}), 
+							React.DOM.button({type: "button", className: "form-group btn btn-md btn-primary", disabled: this.props.disabled, onClick: this._handleClick}, "Add User")
 						)
 					)
 				)
@@ -26,7 +26,7 @@ define(function(require) {
 			var newMember = {
 				name: this.refs.textarea.state.value,
 				hasPicked: false,
-				lastPicked: null
+				lastPicked: new Date(0)
 			};
 			this.refs.textarea.state.value = '';
 			this.props.onMemberAdded(newMember);

@@ -100,7 +100,7 @@ func addTeamMemberHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key := datastore.NewKey(c, "TeamMember", newMember.Name, 0, nil)
+	key := datastore.NewKey(c, "TeamMember", newMember.Team + "-" + newMember.Name, 0, nil)
 	_, err = datastore.Put(c, key, &newMember)
 
 	if err != nil {

@@ -48,7 +48,7 @@ define(function(require) {
 	function onCreateTeam(teamName) {
 		var newTeam = {
 			name: teamName
-		}
+		};
 
 		$.ajax({
             url: '/createTeamHandler',

@@ -15,7 +15,7 @@ define(function(require) {
             		<div className="panel-body">
 						<form role="form">
 							<input type="text" className="form-group form-control" disabled={this.props.disabled} placeholder='Insert User Name...' ref='textarea'/>
-							<button type="button" className="form-group btn btn-xs btn-primary" disabled={this.props.disabled} onClick={this._handleClick}>Add User</button>
+							<button type="button" className="form-group btn btn-md btn-primary" disabled={this.props.disabled} onClick={this._handleClick}>Add User</button>
 						</form>
 					</div>
 				</div>
@@ -26,7 +26,7 @@ define(function(require) {
 			var newMember = {
 				name: this.refs.textarea.state.value,
 				hasPicked: false,
-				lastPicked: null
+				lastPicked: new Date(0)
 			};
 			this.refs.textarea.state.value = '';
 			this.props.onMemberAdded(newMember);

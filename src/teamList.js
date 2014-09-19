@@ -9,34 +9,48 @@ define(function(require) {
 
 		getInitialState: function() {
 			return {
-				value: '',
+				value: 'team',
 				textValue:'',
 				createTeamDisabled: true
 			};
 		},
 
 		render: function() {
+            var self = this;
 
-			var teamsList = this.props.teams.map(function(team, index) {
-				return React.DOM.option( {key:'team_' + uniqueKey++, value:team.name}, team.name)
+			var teamsList = this.props.teams.map(function(team) {
+
+                function handleClick() {
+                    self._handleSelectionChange(team);
+                }
+				return  React.DOM.li({role: "presentation", key: 'team_' + uniqueKey++, onClick: handleClick}, 
+                            React.DOM.a({role: "menuitem", tabindex: "-1"}, team.name)
+                        )
 			});
 
+            var floatRight = {
+                float: "right"
+            };
+
 			return (
-			React.DOM.div( {className:"panel panel-default"}, 
-            	React.DOM.div( {className:"panel-heading"}, 
-              		React.DOM.h3( {className:"panel-title"}, "Team Manager")
-            	),
-            	React.DOM.div( {role:"form", className:"panel-body"}, 
-					React.DOM.input( {className:"form-group form-control", placeholder:"Insert Team Name...", ref:"textarea", onChange:this._handleTextChange, value:this.state.textValue}),
-					React.DOM.div( {className:"form-group"}, 
-						React.DOM.button( {type:"button", className:"btn btn-xs btn-primary", disabled:this.state.createTeamDisabled, onClick:this._handleClick}, "Create Team"),
-						React.DOM.select( {value:this.state.value, ref:"select", onChange:this._handleSelectionChange}, 
-							React.DOM.option( {key:"team_-1", value:"-"}, "-"),
-							teamsList
-						)
-					)
-            	)
-          	)
+                React.DOM.div({className: "panel panel-default"}, 
+                    React.DOM.div({className: "panel-heading"}, 
+                        React.DOM.h3({className: "panel-title"}, "Team Manager")
+                    ), 
+                    React.DOM.div({role: "form", className: "panel-body"}, 
+                        React.DOM.input({className: "form-group form-control", placeholder: "Insert Team Name...", ref: "textarea", onChange: this._handleTextChange, value: this.state.textValue}), 
+                        React.DOM.button({type: "button", className: "btn btn-md btn-primary", disabled: this.state.createTeamDisabled, onClick: this._handleClick}, "Create Team"), 
+                        React.DOM.div({className: "dropdown", style: floatRight}, 
+                            React.DOM.button({className: "btn btn-default dropdown-toggle", type: "button", id: "dropdownMenu1", 'data-toggle': "dropdown"}, 
+                                this.state.value + "  ", 
+                                React.DOM.span({className: "caret"})
+                            ), 
+                            React.DOM.ul({className: "dropdown-menu", role: "menu", 'aria-labelledby': "dropdownMenu1"}, 
+                                teamsList
+                            )
+                        )
+                    )
+                )
 			);
 		},
 
@@ -63,10 +77,10 @@ define(function(require) {
 			});
 		},
 
-		_handleSelectionChange: function() {
-			this.props.onSelectionChange(event.target.value);
+		_handleSelectionChange: function(team) {
+			this.props.onSelectionChange(team.name);
 			this.setState({
-				value: event.target.value
+				value: team.name
 			});
 		},
 

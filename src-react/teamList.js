@@ -9,34 +9,48 @@ define(function(require) {
 
 		getInitialState: function() {
 			return {
-				value: '',
+				value: 'team',
 				textValue:'',
 				createTeamDisabled: true
 			};
 		},
 
 		render: function() {
+            var self = this;
 
-			var teamsList = this.props.teams.map(function(team, index) {
-				return <option key={'team_' + uniqueKey++} value={team.name}>{team.name}</option>
+			var teamsList = this.props.teams.map(function(team) {
+
+                function handleClick() {
+                    self._handleSelectionChange(team);
+                }
+				return  <li role="presentation" key={'team_' + uniqueKey++} onClick={handleClick}>
+                            <a role="menuitem" tabindex="-1">{team.name}</a>
+                        </li>
 			});
 
+            var floatRight = {
+                float: "right"
+            };
+
 			return (
-			<div className="panel panel-default">
-            	<div className="panel-heading">
-              		<h3 className="panel-title">Team Manager</h3>
-            	</div>
-            	<div role="form" className="panel-body">
-					<input className="form-group form-control" placeholder="Insert Team Name..." ref="textarea" onChange={this._handleTextChange} value={this.state.textValue}></input>
-					<div className="form-group">
-						<button type="button" className="btn btn-xs btn-primary" disabled={this.state.createTeamDisabled} onClick={this._handleClick}>Create Team</button>
-						<select value={this.state.value} ref="select" onChange={this._handleSelectionChange}>
-							<option key="team_-1" value="-">-</option>
-							{teamsList}
-						</select>
-					</div>
-            	</div>
-          	</div>
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">Team Manager</h3>
+                    </div>
+                    <div role="form" className="panel-body">
+                        <input className="form-group form-control" placeholder="Insert Team Name..." ref="textarea" onChange={this._handleTextChange} value={this.state.textValue}></input>
+                        <button type="button" className="btn btn-md btn-primary" disabled={this.state.createTeamDisabled} onClick={this._handleClick}>Create Team</button>
+                        <div className="dropdown" style={floatRight}>
+                            <button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                {this.state.value + "  "}
+                                <span className="caret"></span>
+                            </button>
+                            <ul className="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                {teamsList}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
 			);
 		},
 
@@ -63,10 +77,10 @@ define(function(require) {
 			});
 		},
 
-		_handleSelectionChange: function() {
-			this.props.onSelectionChange(event.target.value);
+		_handleSelectionChange: function(team) {
+			this.props.onSelectionChange(team.name);
 			this.setState({
-				value: event.target.value
+				value: team.name
 			});
 		},
 

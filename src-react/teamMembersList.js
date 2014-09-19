@@ -18,9 +18,9 @@ define(function(require) {
 			};
 
 			this.props.teamMembers.sort(function compare(a, b) {
-				if (a.lastPicked < b.lastPicked) {
+				if (new Date(a.lastPicked).valueOf() < new Date(b.lastPicked).valueOf()) {
 					return -1;
-				} else if (a.lastPicked > b.lastPicked) {
+				} else if (new Date(a.lastPicked).valueOf() > new Date(b.lastPicked).valueOf()) {
 					return 1;
 				} else {
 					return 0;
@@ -28,7 +28,7 @@ define(function(require) {
 			});
 
 			var self = this;
-			var canPick = this.props.teamMembers.map(function(teamMember, index) {
+			var canPick = this.props.teamMembers.map(function(teamMember) {
 				if (!teamMember.hasPicked) {
 					return <li className="list-group-item" key={'canPick_' + uniqueKey++}>
 								{teamMember.name}
@@ -36,7 +36,7 @@ define(function(require) {
 							</li>
 				}
 			});
-			var canNotPick = this.props.teamMembers.map(function(teamMember, index) {
+			var canNotPick = this.props.teamMembers.map(function(teamMember) {
 				if (teamMember.hasPicked) {
 					return <li className="list-group-item" key={'cantPick_' + uniqueKey++}>
 								{teamMember.name} {self.formatDate(teamMember.lastPicked)}
