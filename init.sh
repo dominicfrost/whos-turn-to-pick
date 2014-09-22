@@ -8,7 +8,6 @@ COLOR_RESET="\x1b[0m"
 # prepare the dev environment
 git clean -fxd
 npm install
-bower install
 
 if [ $? -ne 0 ]; then
   echo "$COLOR_RED"

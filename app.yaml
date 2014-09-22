@@ -9,57 +9,32 @@ handlers:
   upload: index.html
   login: optional
 
-- url: /src/main.js
-  static_files: src/main.js
-  upload: src/main.js
-  login: optional
-
-- url: /src/component.js
-  static_files: src/component.js
-  upload: src/component.js
-  login: optional
-
-- url: /src/addTeamMember.js
-  static_files: src/addTeamMember.js
-  upload: src/addTeamMember.js
-  login: optional
-
-- url: /src/teamList.js
-  static_files: src/teamList.js
-  upload: src/teamList.js
-  login: optional
-
-- url: /src/teamMembersList.js
-  static_files: src/teamMembersList.js
-  upload: src/teamMembersList.js
-  login: optional
-
-- url: /src/picker.js
-  static_files: src/picker.js
-  upload: src/picker.js
+- url: /src/bundle.js
+  static_files: src/bundle.js
+  upload: src/bundle.js
   login: optional
 
 # Public Tools
-
-- url: /tools/require.js
-  static_files: bower_components/requirejs/require.js
-  upload: bower_components/requirejs/require.js
 
 - url: /tools/jquery.js
   static_files: node_modules/jquery/dist/jquery.js
   upload: node_modules/jquery/dist/jquery.js
 
 - url: /tools/react.js
-  static_files: bower_components/react/react.js
-  upload: bower_components/react/react.js
+  static_files: node_modules/react/react.js
+  upload: node_modules/react/react.js
 
 - url: /tools/bootstrap.js
-  static_files: bower_components/bootstrap/dist/js/bootstrap.js
-  upload: bower_components/bootstrap/dist/js/bootstrap.js
+  static_files: node_modules/bootstrap/dist/js/bootstrap.js
+  upload: node_modules/bootstrap/dist/js/bootstrap.js
 
 - url: /tools/bootstrap.css
-  static_files: bower_components/bootstrap/dist/css/bootstrap.css
-  upload: bower_components/bootstrap/dist/css/bootstrap.css
+  static_files: node_modules/bootstrap/dist/css/bootstrap.css
+  upload: node_modules/bootstrap/dist/css/bootstrap.css
+
+- url: /tools/bootstrap.css.map
+  static_files: node_modules/bootstrap/dist/css/bootstrap.css.map
+  upload: node_modules/bootstrap/dist/css/bootstrap.css.map
 
 # Server Side
 
