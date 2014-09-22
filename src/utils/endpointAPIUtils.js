@@ -1,4 +1,3 @@
-
 var ServerActionCreators = require('../actions/serverActionCreators');
 
 function failedRequest(e) {
@@ -109,37 +108,4 @@ module.exports = {
             error: failedRequest
         });
     }
-
 };
-
-//
-//
-//function getTeamMembersSuccess(json) {
-//    //console.log('team successfully retrieved!');
-//
-//    teamMembers = json.teamMembers || [];
-//
-//    currentTeam = json.team.name;
-//
-//    var recentPick = 0;
-//    var memberPicked;
-//    var currentPicker;
-//
-//    for (var i = 0; i < teamMembers.length; i++) {
-//        memberPicked = new Date(teamMembers[i].lastPicked);
-//        if (recentPick < memberPicked) {
-//            recentPick = memberPicked;
-//            currentPicker = teamMembers[i];
-//        }
-//    }
-//
-//    component.setProps({
-//        teamMembers: teamMembers,
-//        currentPicker: currentPicker,
-//        currentTeam: currentTeam
-//    });
-//}
-//
-//function getTeamMembersFailed() {
-//    //console.log('Failed to get team!')
-//}

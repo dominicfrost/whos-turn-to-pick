@@ -41,31 +41,12 @@ var mainComponent = React.createClass({
             <div>
                 <div className="row">
                     <div className ="col-sm-4">
-                        <TeamList
-                            teams={this.props.teams}
-                            onCreateTeam={this.props.onCreateTeam}
-                            onSelectionChange={this._onSelectionChange}
-                        />
-
-                        <AddTeamMember
-                            disabled={this.state.addMemberDisabled}
-                            onMemberAdded={this.props.onMemberAdded}
-                        />
-                        <Picker
-                            teamMembers={this.props.teamMembers}
-                            onMemberPick={this.props.onMemberPick}
-                            currentPicker={this.props.currentPicker}
-                            resetBucket={this.props.resetBucket}
-                            disabled={this.state.pickerDisabled}
-                         />
+                        <TeamList/>
+                        <AddTeamMember/>
+                        <Picker/>
                     </div>
                     <div className="col-sm-8">
-                        <TeamMembersList
-                            currentTeam={this.props.currentTeam}
-                            teamMembers={this.props.teamMembers}
-                            onMemberRemoved={this.props.onMemberRemoved}
-                            onRemoveTeam={this.props.onRemoveTeam}
-                         />
+                        <TeamMembersList/>
                     </div>
                 </div>
             </div>
@@ -94,7 +75,7 @@ var mainComponent = React.createClass({
             addMemberDisabled: addMemberDisabled,
             pickerDisabled:pickerDisabled
         });
-    },
+    }
 });
 
 module.exports = mainComponent;
