@@ -93,8 +93,15 @@ var TeamMemberStore = merge(EventEmitter.prototype, {
     },
 
     getPickerDisabled: function() {
+        var noEligiblePickers = true;
+        for (var i = 0; i < _teamMembers.length; i++) {
+            if (!(_teamMembers[i].active === false || _teamMembers[i].hasPicked)) {
+                noEligiblePickers = false;
+                break;
+            }
+        }
         return _currentPicker !== 'n/a' && new Date() - new Date(_currentPicker.lastPicked) < PICK_THRESHOLD ||
-                _teamMembers.length === 0;
+                _teamMembers.length === 0 || noEligiblePickers;
     },
 
     getNewTeamMemberDisabled: function() {
@@ -156,6 +163,18 @@ TeamMemberStore.dispatchToken = LunchPickerDispatcher.register(function(payload)
         case ActionTypes.REMOVE_TEAM_SUCCESS:
             _teamMembers = [];
             _currentPicker = 'n/a';
+            TeamMemberStore.emitChange();
+            break;
+
+        case ActionTypes.TOGGLE_ACTIVE_USER:
+            var name = action.teamMember.name;
+            for (var i = 0; i < _teamMembers.length; i++) {
+                if (_teamMembers[i].name === name) {
+                    _teamMembers[i].active = _teamMembers[i].active === undefined ? false : !_teamMembers[i].active;
+                    break;
+                }
+            }
+
             TeamMemberStore.emitChange();
             break;
         default:

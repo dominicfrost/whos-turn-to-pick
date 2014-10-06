@@ -19,7 +19,9 @@ module.exports = {
         PICK_TEAM_MEMBER: null,
 
         UPDATE_NEW_TEAM_MEMBER_VALUE: null,
-        UPDATE_NEW_TEAM_VALUE: null
+        UPDATE_NEW_TEAM_VALUE: null,
+
+        TOGGLE_ACTIVE_USER: null
     }),
 
     PayloadSources: keyMirror({

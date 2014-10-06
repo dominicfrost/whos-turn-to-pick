@@ -53,25 +53,34 @@ var teamMembersList = React.createClass({
 
         var self = this;
         var canPick = this.state.teamMembers.map(function(teamMember) {
-            function handleClick(event) {
+            function handleDelete(event) {
                 self._handleMemberRemoved(event, teamMember)
             }
+            function handleDisable(event) {
+                self._handleMemberDisabled(event, teamMember)
+            }
             if (!teamMember.hasPicked) {
-                return <li className="list-group-item" key={'canPick_' + uniqueKey++}>
+                var className = 'list-group-item';
+                if (teamMember.active === false) {
+                    className += ' disabled';
+                }
+
+                return <a className={className} key={'canPick_' + uniqueKey++}  onClick={handleDisable}>
                             {teamMember.name}
-                            <button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={handleClick}>x</button>
-                        </li>
+                            <button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={handleDelete}>x</button>
+                        </a>
             }
         });
+
         var canNotPick = this.state.teamMembers.map(function(teamMember) {
-            function handleClick(event) {
+            function handleDelete(event) {
                 self._handleMemberRemoved(event, teamMember)
             }
             if (teamMember.hasPicked) {
-                return <li className="list-group-item" key={'cantPick_' + uniqueKey++}>
+                return <a className="list-group-item" key={'cantPick_' + uniqueKey++}>
                             {teamMember.name} {self.formatDate(teamMember.lastPicked)}
-                            <button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={handleClick}>x</button>
-                        </li>
+                            <button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={handleDelete}>x</button>
+                        </a>
             }
         });
 
@@ -87,23 +96,34 @@ var teamMembersList = React.createClass({
                             </div>;
         }
 
+        var noteStyle = {
+            visibility: this.state.teamMembers.length > 2 ? 'visible' : 'hidden',
+            'margin-left': 15
+        };
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <h3 className="panel-title">{currentTeamDiv}</h3>
                 </div>
                 <div className="panel-body">
-                    <div className="col-sm-6">
-                        <h4>Can Pick</h4>
-                        <ul className="list-group">
-                            {canPick}
-                        </ul>
+                    <div className="row">
+                        <div className="col-sm-6">
+                            <h4>Can Pick</h4>
+                            <div className="list-group">
+                                {canPick}
+                            </div>
+                        </div>
+                        <div className="col-sm-6">
+                            <h4>Already Chosen</h4>
+                            <div className="list-group">
+                                {canNotPick}
+                            </div>
+                        </div>
                     </div>
-                    <div className="col-sm-6">
-                        <h4>Already Chosen</h4>
-                        <ul className="list-group">
-                            {canNotPick}
-                        </ul>
+                    <div className="row">
+                        <span style={noteStyle}>
+                            <em>Note:</em> To disable a team member from the current round of picks, just click on their name
+                        </span>
                     </div>
                 </div>
             </div>
@@ -123,6 +143,10 @@ var teamMembersList = React.createClass({
         if (response) {
             TeamMemberActionCreators.removeTeamMember(teamMember);
         }
+    },
+
+    _handleMemberDisabled: function(e, teamMember) {
+        TeamMemberActionCreators.toggleActiveUserState(teamMember);
     },
 
     formatDate: function(dateString) {

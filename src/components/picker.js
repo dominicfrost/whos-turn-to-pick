@@ -38,11 +38,15 @@ var picker = React.createClass({
 
         var currentPicker = this.state.currentPicker ? this.state.currentPicker.name : '';
 
-        var disabled = false;//this.state.disabled;
-
         return (
             <div>
-                <button type="button" className="btn btn-lg btn-primary" disabled={disabled} onClick={this._handleClick}>{"Whose Picking Lunch?"}</button>
+                <button
+                    type="button"
+                    className="btn btn-lg btn-primary"
+                    disabled={this.state.disabled}
+                    onClick={this._handleClick}>
+                    {"Whose Picking Lunch?"}
+                </button>
                 <h4>Last To Choose: {currentPicker} {lastPickerDate}</h4>
             </div>
         );
@@ -53,7 +57,7 @@ var picker = React.createClass({
         var teamMembers = this.state.teamMembers;
         for (var i = 0, len = teamMembers.length; i < len; i++) {
             var teamMember = teamMembers[i];
-            if (!teamMember.hasPicked) {
+            if (!teamMember.hasPicked && teamMember.active !== false) {
                 canPickMembers.push(teamMember);
             }
         }

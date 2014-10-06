@@ -26,6 +26,13 @@ module.exports = {
 
     pick: function(teamMember) {
         EndpointAPIUtils.pickTeamMember(teamMember);
+    },
+
+    toggleActiveUserState: function(teamMember) {
+        LunchPickerDispatcher.handleViewAction({
+            type: ActionTypes.TOGGLE_ACTIVE_USER,
+            teamMember: teamMember
+        });
     }
 
 };
