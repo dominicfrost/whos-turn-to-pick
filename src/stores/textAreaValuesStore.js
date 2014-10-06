@@ -44,8 +44,8 @@ TextAreaValueStore.dispatchToken = LunchPickerDispatcher.register(function(paylo
             break;
 
         case ActionTypes.UPDATE_NEW_TEAM_VALUE:
-            var name = action.value.replace(/\s/g, '');
-            _newTeamValue = name.length > 20 ? this.state.textValue : name;
+            var name = action.value;
+            _newTeamValue = name.length > 20 ? _newTeamValue : name;
             TextAreaValueStore.emitChange();
             break;
 

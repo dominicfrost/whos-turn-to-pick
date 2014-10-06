@@ -120,6 +120,7 @@ TeamMemberStore.dispatchToken = LunchPickerDispatcher.register(function(payload)
 
         case ActionTypes.REMOVE_TEAM_MEMBER_SUCCESS:
             removeTeamMember(action.rawMessages.teamMember);
+            checkBucketsForReset();
             TeamMemberStore.emitChange();
             break;
 

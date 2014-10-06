@@ -209,7 +209,7 @@ func removeTeamMemberHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key := datastore.NewKey(c, "TeamMember", removedMember.Name, 0, nil)
+	key := datastore.NewKey(c, "TeamMember", removedMember.Team + "-" + removedMember.Name, 0, nil)
 	err = datastore.Delete(c, key)
 
 	if err != nil {

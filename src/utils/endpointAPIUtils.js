@@ -59,7 +59,7 @@ module.exports = {
 
     removeTeamMember: function(oldTeamMember) {
         $.ajax({
-            url: '/addTeamMemberHandler',
+            url: '/removeTeamMemberHandler',
             data: JSON.stringify(oldTeamMember),
             type: 'POST',
             dataType : 'json',

@@ -38,7 +38,7 @@ var picker = React.createClass({
 
         var currentPicker = this.state.currentPicker ? this.state.currentPicker.name : '';
 
-        var disabled = this.state.disabled;
+        var disabled = false;//this.state.disabled;
 
         return (
             <div>
