@@ -31,7 +31,8 @@ type getTeamMembersResponse struct {
 }
 
 type updateTeamMemberResponse struct {
-	Result		string		`json:"result"`
+	Result		string			`json:"result"`
+	TeamMembers []TeamMember 	`json:"teamMembers"`
 }
 
 type removeTeamMemberResponse struct {
@@ -189,6 +190,8 @@ func updateTeamMembersHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	response.TeamMembers = updatedMembers
+
 	SendJSONResponse(w, response)
 }
 
@@ -206,7 +209,7 @@ func removeTeamMemberHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	key := datastore.NewKey(c, "TeamMember", removedMember.Name, 0, nil)
+	key := datastore.NewKey(c, "TeamMember", removedMember.Team + "-" + removedMember.Name, 0, nil)
 	err = datastore.Delete(c, key)
 
 	if err != nil {
