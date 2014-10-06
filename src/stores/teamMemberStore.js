@@ -4,18 +4,20 @@ var EndpointAPIUtils = require('../utils/endpointAPIUtils');
 var EventEmitter = require('events').EventEmitter;
 var merge = require('react/lib/merge');
 
+var TextAreaValueStore = require('../stores/textAreaValuesStore');
+
 var ActionTypes = Constants.ActionTypes;
+var PICK_THRESHOLD = Constants.Constants.PICK_THRESHOLD;
 var CHANGE_EVENT = 'change';
 
 var _teamMembers = [];
 var _currentPicker = 'n/a';
+var _newMemberButtonDisabled = true;
 
-function processTeamMembers(teamMembers) {
-    _teamMembers = teamMembers || [];
-
-
+function updateCurrentPicker() {
     var recentPick = 0;
     var memberPicked;
+    _currentPicker = 'n/a';
 
     for (var i = 0; i < _teamMembers.length; i++) {
         memberPicked = new Date(_teamMembers[i].lastPicked);
@@ -26,6 +28,11 @@ function processTeamMembers(teamMembers) {
     }
 }
 
+function processTeamMembers(teamMembers) {
+    _teamMembers = teamMembers || [];
+    updateCurrentPicker();
+}
+
 function removeTeamMember(teamMember) {
     for (var i = 0; i < _teamMembers.length; i++) {
         if (teamMember.name === _teamMembers[i].name) {
@@ -33,10 +40,19 @@ function removeTeamMember(teamMember) {
             break;
         }
     }
+    updateCurrentPicker();
 }
 
-function updateTeamMember(teamMember) {
-
+function updateTeamMember(updatedMembers) {
+    for (var i = 0; i < updatedMembers.length; i++) {
+        for (var j = 0; j < _teamMembers; j++) {
+            if (updatedMembers[i].name === _teamMembers[j].name) {
+                _teamMembers[j] = updatedMembers[i];
+                break;
+            }
+        }
+    }
+    updateCurrentPicker();
 }
 
 function checkBucketsForReset() {
@@ -60,9 +76,6 @@ var TeamMemberStore = merge(EventEmitter.prototype, {
         this.emit(CHANGE_EVENT);
     },
 
-    /**
-    * @param {function} callback
-    */
     addChangeListener: function(callback) {
         this.on(CHANGE_EVENT, callback);
     },
@@ -77,6 +90,15 @@ var TeamMemberStore = merge(EventEmitter.prototype, {
 
     getAllTeamMembers: function() {
         return _teamMembers;
+    },
+
+    getPickerDisabled: function() {
+        return _currentPicker !== 'n/a' && new Date() - new Date(_currentPicker.lastPicked) < PICK_THRESHOLD ||
+                _teamMembers.length === 0;
+    },
+
+    getNewTeamMemberDisabled: function() {
+        return _newMemberButtonDisabled;
     }
 
 });
@@ -92,6 +114,7 @@ TeamMemberStore.dispatchToken = LunchPickerDispatcher.register(function(payload)
 
         case ActionTypes.CREATE_TEAM_MEMBER_SUCCESS:
             _teamMembers.push(action.rawMessages.teamMember);
+            _newMemberButtonDisabled = true;
             TeamMemberStore.emitChange();
             break;
 
@@ -102,10 +125,38 @@ TeamMemberStore.dispatchToken = LunchPickerDispatcher.register(function(payload)
 
         case ActionTypes.UPDATE_TEAM_MEMBER_SUCCESS:
             checkBucketsForReset();
-            updateTeamMember(action.rawMessages.teamMember);
+            updateTeamMember(action.rawMessages.teamMembers);
             TeamMemberStore.emitChange();
             break;
 
+        case ActionTypes.UPDATE_NEW_TEAM_MEMBER_VALUE:
+            LunchPickerDispatcher.waitFor([TextAreaValueStore.dispatchToken]);
+            var newValue = TextAreaValueStore.getNewTeamMemberValue();
+            if (newValue === '') {
+                _newMemberButtonDisabled = true;
+            } else {
+                _newMemberButtonDisabled = false;
+                for (var i = 0; i < _teamMembers.length; i++) {
+                    if (newValue === _teamMembers[i].name) {
+                        _newMemberButtonDisabled = true;
+                        break;
+                    }
+                }
+            }
+            TeamMemberStore.emitChange();
+            break;
+
+        case ActionTypes.CREATE_TEAM_SUCCESS:
+            _teamMembers = [];
+            _currentPicker = 'n/a';
+            TeamMemberStore.emitChange();
+            break;
+
+        case ActionTypes.REMOVE_TEAM_SUCCESS:
+            _teamMembers = [];
+            _currentPicker = 'n/a';
+            TeamMemberStore.emitChange();
+            break;
         default:
             // do nothing
     }

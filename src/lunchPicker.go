@@ -31,7 +31,8 @@ type getTeamMembersResponse struct {
 }
 
 type updateTeamMemberResponse struct {
-	Result		string		`json:"result"`
+	Result		string			`json:"result"`
+	TeamMembers []TeamMember 	`json:"teamMembers"`
 }
 
 type removeTeamMemberResponse struct {
@@ -188,6 +189,8 @@ func updateTeamMembersHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
+	response.TeamMembers = updatedMembers
 
 	SendJSONResponse(w, response)
 }

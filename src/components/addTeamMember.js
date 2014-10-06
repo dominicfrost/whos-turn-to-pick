@@ -2,11 +2,16 @@
 'use strict';
 var React = require('react');
 var TeamStore = require('../stores/teamStore');
+var TextAreaValuesStore = require('../stores/textAreaValuesStore');
+var TeamMemberStore = require('../stores/teamMemberStore');
 var TeamMemberActionCreators = require('../actions/teamMemberActionCreators');
+var TextAreaValueActionCreators = require('../actions/textAreaValueActionCreators');
 
 function getStateFromStores() {
     return {
-        disabled: TeamStore.getCurrentTeam() === 'Pick Your Team...'
+        textAreaDisabled: TeamStore.getCurrentTeam() === 'Pick Your Team...',
+        buttonDisabled: TeamStore.getCurrentTeam() === 'Pick Your Team...' || TeamMemberStore.getNewTeamMemberDisabled(),
+        newMemberValue: TextAreaValuesStore.getNewTeamMemberValue()
     };
 }
 
@@ -17,10 +22,14 @@ var addUser = React.createClass({
 
     componentDidMount: function() {
         TeamStore.addChangeListener(this._onChange);
+        TextAreaValuesStore.addChangeListener(this._onChange);
+        TeamMemberStore.addChangeListener(this._onChange);
     },
 
     componentWillUnmount: function() {
         TeamStore.removeChangeListener(this._onChange);
+        TextAreaValuesStore.removeChangeListener(this._onChange);
+        TeamMemberStore.removeChangeListener(this._onChange);
     },
 
     render: function() {
@@ -32,8 +41,22 @@ var addUser = React.createClass({
                 </div>
                 <div className="panel-body">
                     <form role="form">
-                        <input type="text" className="form-group form-control" disabled={this.state.disabled} placeholder='Insert User Name...' ref='textarea'/>
-                        <button type="button" className="form-group btn btn-md btn-primary" disabled={this.state.disabled} onClick={this._handleClick}>Add User</button>
+                        <input
+                            type="text"
+                            value={this.state.newMemberValue}
+                            className="form-group form-control"
+                            disabled={this.state.textAreaDisabled}
+                            placeholder='Insert User Name...'
+                            onChange={this._handleTextChange}
+                        />
+                        <button
+                            type="button"
+                            className="form-group btn btn-md btn-primary"
+                            disabled={this.state.buttonDisabled}
+                            onClick={this._handleClick}>
+
+                            Add User
+                        </button>
                     </form>
                 </div>
             </div>
@@ -42,12 +65,15 @@ var addUser = React.createClass({
 
     _handleClick: function() {
         var newMember = {
-            name: this.refs.textarea.state.value,
+            name: this.state.newMemberValue,
             hasPicked: false,
             lastPicked: new Date(0)
         };
-        this.refs.textarea.state.value = '';
         TeamMemberActionCreators.createTeamMember(newMember);
+    },
+
+    _handleTextChange: function(event) {
+        TextAreaValueActionCreators.handleNewTeamMemberValueChange(event.target.value);
     },
 
     /**

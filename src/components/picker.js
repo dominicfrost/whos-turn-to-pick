@@ -9,7 +9,8 @@ var TeamMemberActionCreators = require('../actions/teamMemberActionCreators');
 function getStateFromStores() {
     return {
         teamMembers: TeamMemberStore.getAllTeamMembers(),
-        currentPicker: TeamMemberStore.getCurrentPicker()
+        currentPicker: TeamMemberStore.getCurrentPicker(),
+        disabled: TeamMemberStore.getPickerDisabled()
     };
 }
 
@@ -37,7 +38,7 @@ var picker = React.createClass({
 
         var currentPicker = this.state.currentPicker ? this.state.currentPicker.name : '';
 
-        var disabled = false;
+        var disabled = this.state.disabled;
 
         return (
             <div>

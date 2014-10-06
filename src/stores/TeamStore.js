@@ -58,7 +58,7 @@ TeamStore.dispatchToken = LunchPickerDispatcher.register(function(payload) {
 
     switch(action.type) {
         case ActionTypes.GET_TEAMS_SUCCESS:
-            _teams = action.rawMessages.teams;
+            _teams = action.rawMessages.teams || [];
             TeamStore.emitChange();
             break;
 

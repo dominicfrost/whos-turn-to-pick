@@ -2,7 +2,9 @@
 'use strict';
 var React = require('react');
 var TeamActionCreators = require('../actions/teamActionCreators');
+var TextAreaActionCreators = require('../actions/textAreaValueActionCreators');
 var TeamStore = require('../stores/teamStore');
+var TextAreaValesStore = require('../stores/textAreaValuesStore');
 
 var uniqueKey = 0;
 
@@ -10,7 +12,7 @@ function getStateFromStores() {
     return {
         teams: TeamStore.getAllTeams(),
         value: TeamStore.getCurrentTeam(),
-        textValue: ''
+        textValue: TextAreaValesStore.getNewTeamValue()
     };
 }
 
@@ -23,10 +25,12 @@ var teamList = React.createClass({
 
     componentDidMount: function() {
         TeamStore.addChangeListener(this._onChange);
+        TextAreaValesStore.addChangeListener(this._onChange);
     },
 
     componentWillUnmount: function() {
         TeamStore.removeChangeListener(this._onChange);
+        TextAreaValesStore.removeChangeListener(this._onChange);
     },
 
     render: function() {
@@ -71,11 +75,7 @@ var teamList = React.createClass({
     },
 
     _handleTextChange: function(event) {
-        var name = event.target.value.replace(/\s/g, '');
-
-        this.setState({
-            textValue: name.length > 20 ? this.state.textValue : name
-        });
+        TextAreaActionCreators.handleNewTeamValueChange(event.target.value);
     },
 
     _handleClick: function() {

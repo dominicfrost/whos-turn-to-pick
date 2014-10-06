@@ -16,12 +16,19 @@ module.exports = {
         REMOVE_TEAM_MEMBER_SUCCESS: null,
         UPDATE_TEAM_MEMBER_SUCCESS: null,
 
-        PICK_TEAM_MEMBER: null
+        PICK_TEAM_MEMBER: null,
+
+        UPDATE_NEW_TEAM_MEMBER_VALUE: null,
+        UPDATE_NEW_TEAM_VALUE: null
     }),
 
     PayloadSources: keyMirror({
         SERVER_ACTION: null,
         VIEW_ACTION: null
-    })
+    }),
+
+    Constants: {
+        PICK_THRESHOLD: 1195200000  // 13 days and 20 hours
+    }
 
 };
