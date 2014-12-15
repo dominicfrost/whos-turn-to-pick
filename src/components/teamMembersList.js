@@ -73,9 +73,13 @@ var teamMembersList = React.createClass({
         });
 
         var canNotPick = this.state.teamMembers.map(function(teamMember) {
+            function handleDelete(event) {
+                self._handleMemberRemoved(event, teamMember)
+            }
             if (teamMember.hasPicked) {
                 return <a className="list-group-item" key={'cantPick_' + uniqueKey++}>
                             {teamMember.name} {self.formatDate(teamMember.lastPicked)}
+                            <button type="button" className="btn btn-xs btn-primary" style={buttonStyle} onClick={handleDelete}>x</button>
                         </a>
             }
         });
@@ -147,7 +151,7 @@ var teamMembersList = React.createClass({
 
     formatDate: function(dateString) {
         var date = new Date(dateString);
-        return (date.getMonth() + 1) + '/' + date.getDate() + '/' + (date.getYear() - 100);
+        return (date.getMonth() + 1) + '/' + date.getDate() + '/' + (date.getYear() % 100);
     },
 
     /**
