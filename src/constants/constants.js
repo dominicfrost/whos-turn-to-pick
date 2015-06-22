@@ -30,7 +30,7 @@ module.exports = {
     }),
 
     Constants: {
-        PICK_THRESHOLD: 1195200000  // 13 days and 20 hours
+        PICK_THRESHOLD: 86400000  // 1 day
     }
 
 };
