@@ -1,0 +1,18 @@
+name: lunch_picker
+description: A simple app hosted on GAE that randomizes who gets to pick where to go
+version: 0.0.1
+#author: Dominic Frost <frostationdevice@gmail.com>
+#homepage: https://github.com/dominicfrost/whos-turn-to-pick
+
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+
+dependencies:
+  browser: ">=0.10.0 <0.11.0"
+  dart_to_js_script_rewriter: ^0.1.0
+  react:
+  w_flux:
+    git: git://github.com/Workiva/w_flux
+
+transformers:
+  - dart_to_js_script_rewriter
