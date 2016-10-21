@@ -19,8 +19,8 @@ class _Picker extends react.Component {
             react.div({
               'className': 'col-sm-4'
             }, [
-              TeamList({'actions': picker.actions, 'store': picker.store}),
-              AddTeamMember({'actions': picker.actions, 'store': picker.store}),
+              GroupList({'actions': picker.actions, 'store': picker.store}),
+              AddGroupItem({'actions': picker.actions, 'store': picker.store}),
               react.div({}, [
                 react.button({
                   'className': 'btn btn-lg btn-primary',
@@ -31,7 +31,7 @@ class _Picker extends react.Component {
                 react.h4({}, 'Last to choose: ${lastPicker} ${lastDate}'),
               ])
             ]),
-            react.div({'className': 'col-sm-8'}, TeamMemberList({'actions': picker.actions, 'store': picker.store}))));
+            react.div({'className': 'col-sm-8'}, GroupItemList({'actions': picker.actions, 'store': picker.store}))));
   }
 
   _onClick(_) {

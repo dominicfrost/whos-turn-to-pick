@@ -1,8 +1,13 @@
 part of lunch_picker;
 
 class PickerStore extends flux.Store {
+  FirebaseClient fbClient;
 
-  List<String> _teams;
+  List<Group> _groups;
+  List<Group> get groups => new List.from(_groups);
+
+  List<GroupItem> _groupItems;
+  List<GroupItem> get groupItems => new List.from(_groupItems);
 
   Map<String, List<String>> _teamMembers;
 
@@ -11,8 +16,6 @@ class PickerStore extends flux.Store {
   String _activeTeam;
 
   String _activeMember;
-
-  List<String> get teams => new List<String>.from(_teams);
 
   List<String> members(String team) => new List<String>.from(_teamMembers[team]);
 
@@ -48,52 +51,58 @@ class PickerStore extends flux.Store {
   }
 
   PickerStore(PickerActions actions) {
-    _teams = new List<String>();
-    _teamMembers = new Map<String, List<String>>();
-    _teamMemberPickDates = new Map<String, Map<String, List<int>>>();
+    _groups = new List<Group>();
+    _groupItems = new List<GroupItem>();
 
+    fbClient = new FirebaseClient();
+    fbClient.signIn();
+
+    // firebase subs
+    fbClient.fbGroups.onChildAdded.listen(groupAdded);
+    fbClient.fbGroupItems.onChildAdded.listen(groupItemAdded);
+
+    // action subs
     actions
-        ..createTeam.listen(_createTeam)
-        ..removeTeam.listen(_removeTeam)
-        ..selectTeam.listen(_selectTeam)
-        ..createTeamMember.listen(_createTeamMember)
-        ..removeTeamMember.listen(_removeTeamMember)
-        ..selectTeamMember.listen(_selectTeamMember)
-        ..toggleTeamMemberActive.listen(_toggleTeamMemberActive)
-        ..pick.listen(_pick);
+      ..createGroup.listen(_createGroup)
+      ..removeGroup.listen(_removeGroup)
+      ..selectGroup.listen(_selectGroup)
+      ..createGroupItem.listen(_createGroupItem)
+      ..removeGroupItem.listen(_removeGroupItem)
+      ..selectGroupItem.listen(_selectGroupItem)
+      ..toggleGroupItemActive.listen(_toggleGroupItemActive)
+      ..pick.listen(_pick);
+  }
+
+  // Firebase child listeners
+  void groupAdded(firebase.QueryEvent event) {
+    _groups.add(new Group.fromJson(event.snapshot.val()));
+    trigger();
+  }
+
+  void groupItemAdded(firebase.QueryEvent event) {
+    _groupItems.add(new GroupItem.fromJson(event.snapshot.val()));
+    trigger();
   }
 
   // Action Handlers
 
-  _createTeam(String team) {
-
+  _createGroup(String group) {
+    fbClient.createGroup(group);
   }
 
-  _removeTeam(String team) {
-
+  _removeGroup(Group group) {
+    fbClient.removeGroup(group);
   }
 
-  _selectTeam(String team) {
+  _selectGroup(String team) {}
 
-  }
+  _createGroupItem(String member) {}
 
-  _createTeamMember(String member) {
+  _removeGroupItem(String member) {}
 
-  }
+  _selectGroupItem(String member) {}
 
-  _removeTeamMember(String member) {
+  _toggleGroupItemActive(String member) {}
 
-  }
-
-  _selectTeamMember(String member) {
-
-  }
-
-  _toggleTeamMemberActive(String member) {
-
-  }
-
-  _pick(_) {
-
-  }
+  _pick(_) {}
 }
