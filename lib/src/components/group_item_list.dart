@@ -3,11 +3,15 @@ part of lunch_picker;
 var GroupItemList = react.registerComponent(() => new _GroupItemList());
 
 class _GroupItemList extends flux.FluxComponent<PickerActions, PickerStore> {
+  componentDidMount() {
+    store.listen((_) => redraw());
+  }
+
   render() {
     return react.div({
       'className': 'panel panel-default'
     }, [
-      react.div({'className': 'panel-heading'}, 'Team Manager'),
+      react.div({'className': 'panel-heading'}, 'Group Item List'),
       react.div({
         'className': 'panel-body'
       }, [

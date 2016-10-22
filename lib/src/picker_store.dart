@@ -9,24 +9,21 @@ class PickerStore extends flux.Store {
   List<GroupItem> _groupItems;
   List<GroupItem> get groupItems => new List.from(_groupItems);
 
-  Map<String, List<String>> _teamMembers;
+  Group _activeGroup;
+  Group get activeGroup => _activeGroup;
+
+  bool get activeGroupHasItems => _groupItems.any((GroupItem item) => item.group.name == activeGroup.name);
+
+  List<GroupItem> getItemsInGroup(Group group) {
+    return _groupItems.where((GroupItem item) => item.group.name == group.name);
+  }
 
   Map<String, Map<String, List<int>>> _teamMemberPickDates;
 
-  String _activeTeam;
+  bool get canCreateMember => _activeGroup != null;
 
-  String _activeMember;
-
-  List<String> members(String team) => new List<String>.from(_teamMembers[team]);
-
-  String get activeTeam => _activeTeam ?? TEAM_NOT_FOUND;
-
-  String get activeMember => _activeMember ?? TEAM_MEMBER_NOT_FOUND;
-
-  bool get canCreateMember => _activeTeam != null;
-
-  /// Returns true if there is an active team, and that team has members.
-  bool get canPick => _activeTeam != null && members(_activeTeam).isNotEmpty;
+  /// Returns true if there is an active group, and that group has members.
+  bool get canPick => _activeGroup != null && activeGroupHasItems;
 
   List<int> pickDates(String team, String member) {
     if (_teamMemberPickDates.containsKey(team) && _teamMemberPickDates[team].containsKey(member)) {
@@ -36,18 +33,17 @@ class PickerStore extends flux.Store {
   }
 
   /// Returns the name of the member with the most recent pick from the active team.
-  String get lastPicker {
-    String lastMember = TEAM_MEMBER_NOT_FOUND;
-    int lastDate;
-    if (activeTeam == TEAM_NOT_FOUND) return lastMember;
-    members(_activeTeam).forEach((member) {
-      List<int> dates = pickDates(_activeTeam, member);
-      if (dates.isNotEmpty && (lastDate == null || dates.last > lastDate)) {
-        lastMember = member;
-        lastDate = dates.last;
+  GroupItem get lastPick {
+    int oldestDate = new DateTime.now().millisecondsSinceEpoch;
+    GroupItem lastItem;
+    getItemsInGroup(activeGroup).forEach((GroupItem item) {
+      if (item.lastPicked < oldestDate) {
+        oldestDate = item.lastPicked;
+        lastItem = item;
       }
     });
-    return lastMember;
+
+    return lastItem;
   }
 
   PickerStore(PickerActions actions) {
@@ -86,17 +82,29 @@ class PickerStore extends flux.Store {
 
   // Action Handlers
 
-  _createGroup(String group) {
+  _createGroup(String groupName) {
+    Group group = new Group(groupName);
+    _activeGroup = group;
     fbClient.createGroup(group);
+    trigger();
   }
 
   _removeGroup(Group group) {
     fbClient.removeGroup(group);
   }
 
-  _selectGroup(String team) {}
+  _selectGroup(Group group) {
+    _activeGroup = group;
+    trigger();
+  }
 
-  _createGroupItem(String member) {}
+  _createGroupItem(String groupItemName) {
+    if (activeGroup == null) return;
+
+    var groupItem = new GroupItem(groupItemName, activeGroup);
+    fbClient.createGroupItem(groupItem);
+    trigger();
+  }
 
   _removeGroupItem(String member) {}
 

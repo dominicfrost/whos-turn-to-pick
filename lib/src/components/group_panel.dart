@@ -1,15 +1,21 @@
 part of lunch_picker;
 
-var GroupList = react.registerComponent(() => new _GroupList());
+var GroupPanel = react.registerComponent(() => new _GroupPanel());
 
-class _GroupList extends flux.FluxComponent<PickerActions, PickerStore> {
+class _GroupPanel extends flux.FluxComponent<PickerActions, PickerStore> {
+  String get groupValue => state['groupValue'];
+
   getInitialState() {
-    return {'newMemberValue': ''};
+    return {'groupValue': ''};
+  }
+
+  componentDidMount() {
+    store.listen((_) => redraw());
   }
 
   render() {
     var groupListItems = store.groups.map((Group group) {
-      return react.li({}, react.a({}, group.name));
+      return react.li({}, react.a({'onClick': (_) => actions.selectGroup(group)}, group.name));
     });
 
     return react.div({
@@ -22,15 +28,15 @@ class _GroupList extends flux.FluxComponent<PickerActions, PickerStore> {
         react.input({
           'className': 'form-group form-control',
           'type': 'text',
-          'value': state['newMemberValue'],
+          'value': groupValue,
           'disabled': false,
           'onChange': _onChange,
-          'placeholder': 'Create new group...'
+          'placeholder': 'Create new group ...'
         }),
         react.button({
           'className': 'form-group btn btn-md btn-primary',
           'type': 'button',
-          'disabled': false,
+          'disabled': groupValue == '',
           'onClick': _onClick
         }, 'Create'),
         react.div({
@@ -43,7 +49,7 @@ class _GroupList extends flux.FluxComponent<PickerActions, PickerStore> {
             'id': 'dropdownMenu1',
             'data-toggle': 'dropdown'
           }, [
-            '${store.activeTeam}',
+            '${store.activeGroup?.name ?? ''}',
             react.span({'className': 'caret'})
           ]),
           react.ul({'className': 'dropdown-menu', 'role': 'menu', 'arialabelledby': 'dropdownMenu1'}, groupListItems),
@@ -53,10 +59,11 @@ class _GroupList extends flux.FluxComponent<PickerActions, PickerStore> {
   }
 
   _onChange(react.SyntheticFormEvent event) {
-    setState({'newMemberValue': event.target.value});
+    setState({'groupValue': event.target.value});
   }
 
   _onClick(_) {
-    actions.createGroup(state['newMemberValue']);
+    setState({'groupValue': ''});
+    actions.createGroup(groupValue);
   }
 }

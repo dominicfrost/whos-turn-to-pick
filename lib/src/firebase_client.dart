@@ -15,12 +15,12 @@ class FirebaseClient {
 
   FirebaseClient() {
     firebase.initializeApp(
-      apiKey: "AIzaSyCH4P6kWIjafR7in1lHL3fi2a3hby2OodI",
-      authDomain: "lunch-picker-7d65b.firebaseapp.com",
-      databaseURL: "https://lunch-picker-7d65b.firebaseio.com",
-      storageBucket: "lunch-picker-7d65b.appspot.com",
-      // messagingSenderId: "311466877980"
-    );
+        apiKey: "AIzaSyCH4P6kWIjafR7in1lHL3fi2a3hby2OodI",
+        authDomain: "lunch-picker-7d65b.firebaseapp.com",
+        databaseURL: "https://lunch-picker-7d65b.firebaseio.com",
+        storageBucket: "lunch-picker-7d65b.appspot.com"
+        // messagingSenderId: "311466877980"
+        );
 
     _fbGoogleAuthProvider = new firebase.GoogleAuthProvider();
     _fbAuth = firebase.auth();
@@ -49,17 +49,33 @@ class FirebaseClient {
     _fbAuth.signOut();
   }
 
-  Future createGroup(String groupName) async {
+  Future createGroup(Group group) async {
     try {
-      Group group = new Group(groupName);
       await _fbGroups.push(group.toJson());
     } catch (error) {
       print("$runtimeType::createGroup() -- $error");
     }
   }
 
-  // TODO: remove
+  // TODO: remove group
   Future removeGroup(Group group) async {
+    try {
+      // await _fbGroups.push(group.toJson());
+    } catch (error) {
+      print("$runtimeType::createGroup() -- $error");
+    }
+  }
+
+  Future createGroupItem(GroupItem groupItem) async {
+    try {
+      await _fbGroupItems.push(groupItem.toJson());
+    } catch (error) {
+      print("$runtimeType::createGroup() -- $error");
+    }
+  }
+
+  // TODO: remove group item
+  Future removeGroupItem(GroupItem groupItem) async {
     try {
       // await _fbGroups.push(group.toJson());
     } catch (error) {

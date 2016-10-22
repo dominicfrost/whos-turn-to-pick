@@ -3,14 +3,14 @@ part of lunch_picker;
 class GroupItem {
   String name;
   Group group;
-  String lastPicked;
-  String hasPicked;
+  int lastPicked;
+  bool hasPicked;
 
-  GroupItem(this.name, this.group, {this.lastPicked, this.hasPicked});
+  GroupItem(this.name, this.group, {this.lastPicked: 0, this.hasPicked: false});
 
   GroupItem.fromJson(Map json) {
     this.name = json['name'];
-    this.group = new Group(json['group']);
+    this.group = new Group.fromJson(json['group']);
     this.lastPicked = json['lastPicked'];
     this.hasPicked = json['hasPicked'];
   }
@@ -18,7 +18,7 @@ class GroupItem {
   Map toJson() {
     return {
       'name': this.name,
-      'group': this.group,
+      'group': this.group.toJson(),
       'lastPicked': this.lastPicked,
       'hasPicked': this.hasPicked,
     };
