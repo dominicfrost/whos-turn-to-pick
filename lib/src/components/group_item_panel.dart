@@ -7,7 +7,7 @@ class _GroupItemPanel extends flux.FluxComponent<PickerActions, PickerStore> {
 
   Map getInitialState() => {'groupItemValue': ''};
 
-  bool get buttonDisabled => !store.canCreateMember && groupItemValue == '';
+  bool get buttonDisabled => !store.canCreateMember || groupItemValue == '';
 
   bool get inputDisabled => !store.canCreateMember;
 
