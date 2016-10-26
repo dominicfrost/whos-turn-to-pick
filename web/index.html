@@ -7,18 +7,34 @@
 
     <title>Lunch Picker</title>
 
-    <!-- Bootstrap -->
-    <link href="packages/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
-    <script src="packages/bootstrap/js/bootstrap.min.js"></script>
+  <!-- Bootstrap -->
+  <link href="packages/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
 
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <!-- javascript -->
+  <script src="https://www.gstatic.com/firebasejs/3.5.1/firebase.js"></script>
 
-    <script defer src="main.dart" type="application/dart"></script>
-    <script defer src="packages/browser/dart.js"></script>
-  </head>
+  <script async src="packages/react/react_with_react_dom_prod.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script src="http://code.jquery.com/jquery.js"></script>
+  <script src="packages/bootstrap/js/bootstrap.min.js"></script>
 
-  <body role="document">
-    <picker-app>Loading...</picker-app>
-  </body>
-</html>
+
+
+</head>
+<body role="document">
+  <div class="container theme-showcase" role="main">
+    <div class="jumbotron">
+        <h1>Welcome to the Lunch Picker</h1>
+        <p>This is a simple web-app that will randomly select a team member to pick where the team will go to lunch</p>
+        <p><a href="https://github.com/dominicfrost/whos-turn-to-pick" class="btn btn-primary btn-lg" role="button">View Source »</a></p>
+    </div>
+
+    <div id="mainContainer">
+    </div>
+  </div>
+
+  <picker-app>Loading...</picker-app>
+
+  <script type="application/dart" src="main.dart"></script>
+  <script type="text/javascript" src="packages/browser/dart.js"></script>
+</body>
