@@ -1,5 +1,6 @@
 library lunch_picker;
 
+import 'package:angular2/angular2.dart' as angular;
 import 'package:react/react.dart' as react;
 import 'package:w_flux/w_flux.dart' as flux;
 

@@ -8,12 +8,19 @@ environment:
   sdk: '>=1.0.0 <2.0.0'
 
 dependencies:
+  angular2: 2.0.0-beta.18
   bootstrap: ^3.3.7
   browser: ">=0.10.0 <0.11.0"
-  dart_to_js_script_rewriter: ^0.1.0
+  dart_to_js_script_rewriter: ^1.0.1
   react: ^3.0.0
   w_flux:
     git: git://github.com/Workiva/w_flux
 
 transformers:
-  - dart_to_js_script_rewriter
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#COMMON_DIRECTIVES'
+    platform_pipes:
+    - 'package:angular2/common.dart#COMMON_PIPES'
+    entry_points: web/main.dart
+- dart_to_js_script_rewriter
