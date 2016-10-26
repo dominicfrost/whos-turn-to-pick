@@ -11,6 +11,7 @@ dependencies:
   bootstrap: ^3.3.7
   browser: ">=0.10.0 <0.11.0"
   dart_to_js_script_rewriter: ^0.1.0
+  firebase3: any
   react: ^3.0.0
   w_flux:
     git: git://github.com/Workiva/w_flux

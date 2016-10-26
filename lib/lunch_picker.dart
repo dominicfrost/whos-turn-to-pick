@@ -1,19 +1,22 @@
 library lunch_picker;
 
+import 'dart:async';
+
 import 'package:react/react.dart' as react;
 import 'package:w_flux/w_flux.dart' as flux;
+import 'package:firebase3/firebase.dart' as firebase;
 
 part 'src/picker_actions.dart';
 part 'src/picker_store.dart';
+part 'src/firebase_client.dart';
 
-part 'src/components/add_team_member.dart';
+part 'src/components/group_item_list.dart';
+part 'src/components/group_item_panel.dart';
+part 'src/components/group_panel.dart';
 part 'src/components/picker.dart';
-part 'src/components/team_list.dart';
-part 'src/components/team_member_list.dart';
 
-const String PICKER_KEY = 'Lunch picker';
-const String TEAM_NOT_FOUND = '';
-const String TEAM_MEMBER_NOT_FOUND = '';
+part 'src/models/group.dart';
+part 'src/models/group_item.dart';
 
 class LunchPicker {
   PickerActions _actions;
@@ -27,5 +30,5 @@ class LunchPicker {
     _store = new PickerStore(_actions);
   }
 
-  component() => Picker({PICKER_KEY: this});
+  component() => Picker({'actions': _actions, 'store': _store});
 }
