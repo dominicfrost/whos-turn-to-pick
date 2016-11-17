@@ -7,9 +7,21 @@
       <a href="https://github.com/dominicfrost/whos-turn-to-pick" class="btn btn-primary btn-lg" role="button">View Source »</a>
     </p>
   </div>
-  <div>
-    <group-list [groups]="groups"></group-list>
+  <!-- <div>
+    <group-panel [groups]="groups"></group-panel>
     <button type="button" class="btn btn-lg btn-primary">{{currentGroup}}</button>
     <h4>Last To Choose: {{currentGroupItem}} {{lastPickDate}}</h4>
+  </div> -->
+
+  <div class="row">
+    <div class ="col-sm-4">
+      <groups-panel [groups]="groups"></groups-panel>
+      <add-group-item-panel></add-group-item-panel>
+      <button type="button" class="btn btn-lg btn-primary">Pick Random Item!</button>
+      <h4>Last To Choose: {{lastPickGroupItem}} {{lastPickDate}}</h4>
+    </div>
+    <div class="col-sm-8">
+      <group-items-panel [group]="currentGroup" [groupItems]="currentGroupItems"></group-items-panel>
+    </div>
   </div>
 </div>

@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div class="panel-heading">{{group}}</div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-sm-6">
+        <h4>Can Pick</h4>
+        <div class="list-group">
+          <a *ngFor="let groupItem of groupItems" class="list-group-item" role="presentation">
+            {{groupItem}}
+            <button type="button" class="btn btn-xs btn-primary" style="position: absolute; right: 5px;">x</button>
+          </a>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <h4>Already Chosen</h4>
+        <div class="list-group">
+          <!-- {canNotPick} -->
+        </div>
+      </div>
+    </div>
+    <div class="row" style="padding-left: 15">
+      <span>
+        <em>Note:</em> To disable a team member from the current round of picks, just click on their name
+      </span>
+    </div>
+  </div>
+</div>

@@ -3,15 +3,20 @@ part of angular_picker;
 @Component(
     selector: 'picker-app',
     templateUrl: 'package:lunch_picker/src/ang_templates/picker.html',
-    directives: const [GroupList]
+    directives: const [AddGroupItemPanel, GroupItemsPanel, GroupsPanel]
   )
 class PickerComponent {
-  String currentGroup = 'My Group';
-  String currentGroupItem = 'My Group Item';
+  // String currentGroup = 'My Group';
+  String lastPickGroupItem = 'My Group Item';
   String lastPickDate = 'Wednesday';
 
-  List<String> groups ;
+  List<String> groups;
   Map<String, List<String>> groupItems;
+
+  int activeGroupIndex = 0;
+
+  String get currentGroup => groups[activeGroupIndex];
+  List<String> get currentGroupItems => groupItems[currentGroup];
 
   PickerComponent() {
     groups = ["Group A", "Group B"];

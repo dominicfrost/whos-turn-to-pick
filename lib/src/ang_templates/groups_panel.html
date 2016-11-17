@@ -1,11 +1,11 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Groups</div>
+  <div class="panel-heading">Groups Generator</div>
   <div class="panel-body">
-    <input class="form-group form-control" [(ngModel)]="newGroupName" placeholder="Insert Group Name..." ref="textarea">
-    <button type="button" class="form-group btn btn-md btn-primary">Create Group</button>
+    <input class="form-group form-control" [(ngModel)]="newGroup" placeholder="group name..." ref="textarea">
+    <button type="button" class="form-group btn btn-md btn-primary">Add Group</button>
     <div class="btn-group" style="float: right;">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-        SOME MENU THING <span className="caret"></span>
+        SOME MENU THING <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         <li *ngFor="let group of groups" role="presentation">
