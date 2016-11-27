@@ -1,4 +1,6 @@
-part of lunch_picker;
+part of picker_core;
+
+const String NO_GROUP_ADDED = "";
 
 class PickerStore extends flux.Store {
   FirebaseClient fbClient;
@@ -8,6 +10,8 @@ class PickerStore extends flux.Store {
 
   List<GroupItem> _groupItems;
   List<GroupItem> get groupItems => new List.from(_groupItems);
+
+  String _addedGroupName = NO_GROUP_ADDED;
 
   Group _activeGroup;
   Group get activeGroup => _activeGroup;
@@ -71,7 +75,12 @@ class PickerStore extends flux.Store {
 
   // Firebase child listeners
   void groupAdded(firebase.QueryEvent event) {
-    _groups.add(new Group.fromJson(event.snapshot.val()));
+    Group group = new Group.fromJson(event.snapshot.val());
+    _groups.add(group);
+    if (group.name == _addedGroupName) {
+      _activeGroup = group;
+      _addedGroupName = NO_GROUP_ADDED;
+    }
     trigger();
   }
 
@@ -94,12 +103,15 @@ class PickerStore extends flux.Store {
   }
 
   _selectGroup(Group group) {
+    print("_selectGroup ($group)");
     _activeGroup = group;
     trigger();
   }
 
   _createGroupItem(String groupItemName) {
+    print("_createGroupItem ($groupItemName)");
     if (activeGroup == null) return;
+    if (groupItemName.isEmpty) return;
 
     var groupItem = new GroupItem(groupItemName, activeGroup);
     fbClient.createGroupItem(groupItem);

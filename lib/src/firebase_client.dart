@@ -1,4 +1,4 @@
-part of lunch_picker;
+part of picker_core;
 
 class FirebaseClient {
   firebase.GoogleAuthProvider _fbGoogleAuthProvider;

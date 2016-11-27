@@ -2,6 +2,6 @@
   <div class="panel-heading">Group Item Generator</div>
   <div class="panel-body">
     <input class="form-group form-control" [(ngModel)]="newGroupItem" placeholder="item name..." ref="textarea">
-    <button type="button" class="form-group btn btn-md btn-primary">Add Item</button>
+    <button type="button" class="form-group btn btn-md btn-primary" (click)="actions.createGroupItem(newGroupItem)">Add Item</button>
   </div>
 </div>
