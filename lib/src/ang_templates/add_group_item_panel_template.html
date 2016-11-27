@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div *ngIf="activeGroup != null" class="panel panel-default">
   <div class="panel-heading">Group Item Generator</div>
   <div class="panel-body">
     <input class="form-group form-control" [(ngModel)]="newGroupItem" placeholder="item name..." ref="textarea">

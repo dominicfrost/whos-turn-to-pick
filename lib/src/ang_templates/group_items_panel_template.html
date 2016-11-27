@@ -1,12 +1,12 @@
-<div class="panel panel-default">
-  <div class="panel-heading">{{group}}</div>
+<div *ngIf="group != null" class="panel panel-default">
+  <div class="panel-heading">{{group.name}}</div>
   <div class="panel-body">
     <div class="row">
       <div class="col-sm-6">
         <h4>Can Pick</h4>
         <div class="list-group">
           <a *ngFor="let groupItem of groupItems" class="list-group-item" role="presentation">
-            {{groupItem}}
+            {{groupItem.name}}
             <button type="button" class="btn btn-xs btn-primary" style="position: absolute; right: 5px;">x</button>
           </a>
         </div>

@@ -2,14 +2,14 @@
   <div class="panel-heading">Groups Generator</div>
   <div class="panel-body">
     <input class="form-group form-control" [(ngModel)]="newGroup" placeholder="group name..." ref="textarea">
-    <button type="button" class="form-group btn btn-md btn-primary"  (click)="actions.createGroup(newGroup)>Add Group</button>
-    <div class="btn-group" style="float: right;">
+    <button type="button" class="form-group btn btn-md btn-primary" (click)="actions.createGroup(newGroup)">Add Group</button>
+    <div *ngIf="activeGroup != null" class="btn-group" style="float: right;">
       <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
-        SOME MENU THING <span class="caret"></span>
+        {{activeGroup.name}} <span class="caret"></span>
       </button>
       <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
         <li *ngFor="let group of groups" role="presentation" (click)="actions.selectGroup(group)">
-          <a role="menuitem" tabindex="-1">{{group}}</a>
+          <a role="menuitem" tabindex="-1">{{group.name}}</a>
         </li>
       </ul>
     </div>

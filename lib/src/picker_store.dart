@@ -3,7 +3,7 @@ part of picker_core;
 const String NO_GROUP_ADDED = "";
 
 class PickerStore extends flux.Store {
-  FirebaseClient fbClient;
+  PickerClient _client;
 
   List<Group> _groups;
   List<Group> get groups => new List.from(_groups);
@@ -51,15 +51,13 @@ class PickerStore extends flux.Store {
   }
 
   PickerStore(PickerActions actions) {
+    // _client = new FirebaseClient()
+    _client = new LocalPickerClient()
+      ..groupAdded.listen(_groupAddedHandler)
+      ..groupItemAdded.listen(_groupItemAddedHandler);
+
     _groups = new List<Group>();
     _groupItems = new List<GroupItem>();
-
-    fbClient = new FirebaseClient();
-    fbClient.signIn();
-
-    // firebase subs
-    fbClient.fbGroups.onChildAdded.listen(groupAdded);
-    fbClient.fbGroupItems.onChildAdded.listen(groupItemAdded);
 
     // action subs
     actions
@@ -73,33 +71,34 @@ class PickerStore extends flux.Store {
       ..pick.listen(_pick);
   }
 
-  // Firebase child listeners
-  void groupAdded(firebase.QueryEvent event) {
-    Group group = new Group.fromJson(event.snapshot.val());
-    _groups.add(group);
-    if (group.name == _addedGroupName) {
-      _activeGroup = group;
+  // Client event handlers
+
+  void _groupAddedHandler(Group newGroup) {
+    _groups.add(newGroup);
+    if (newGroup.name == _addedGroupName) {
+      _activeGroup = newGroup;
       _addedGroupName = NO_GROUP_ADDED;
     }
     trigger();
   }
 
-  void groupItemAdded(firebase.QueryEvent event) {
-    _groupItems.add(new GroupItem.fromJson(event.snapshot.val()));
+  void _groupItemAddedHandler(GroupItem newGroupItem) {
+    _groupItems.add(newGroupItem);
     trigger();
   }
 
   // Action Handlers
 
   _createGroup(String groupName) {
+    print("_createGroup ($groupName)");
     Group group = new Group(groupName);
-    _activeGroup = group;
-    fbClient.createGroup(group);
-    trigger();
+    _addedGroupName = groupName;
+    _client.createGroup(group);
   }
 
   _removeGroup(Group group) {
-    fbClient.removeGroup(group);
+    print("_removeGroup ($group)");
+    _client.removeGroup(group);
   }
 
   _selectGroup(Group group) {
@@ -114,15 +113,22 @@ class PickerStore extends flux.Store {
     if (groupItemName.isEmpty) return;
 
     var groupItem = new GroupItem(groupItemName, activeGroup);
-    fbClient.createGroupItem(groupItem);
-    trigger();
+    _client.createGroupItem(groupItem);
   }
 
-  _removeGroupItem(String member) {}
+  _removeGroupItem(String member) {
+    print("_removeGroupItem ($member)");
+  }
 
-  _selectGroupItem(String member) {}
+  _selectGroupItem(String member) {
+    print("_selectGroupItem ($member)");
+  }
 
-  _toggleGroupItemActive(String member) {}
+  _toggleGroupItemActive(String member) {
+    print("_toggleGroupItemActive ($member)");
+  }
 
-  _pick(_) {}
+  _pick(_) {
+    print("_pick");
+  }
 }

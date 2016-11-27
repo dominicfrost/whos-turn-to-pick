@@ -11,8 +11,6 @@ class PickerComponent {
 
   PickerActions get actions => _actions;
 
-  // template state
-
   List<Group> get groups => _store.groups;
 
   Group get activeGroup => _store.activeGroup;
