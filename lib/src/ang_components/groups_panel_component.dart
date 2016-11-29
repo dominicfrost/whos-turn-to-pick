@@ -12,6 +12,4 @@ class GroupsPanelComponent {
 
   @Input()
   Group activeGroup;
-
-  String newGroup = "";
 }

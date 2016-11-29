@@ -12,10 +12,10 @@
       <groups-panel [actions]="actions" [activeGroup]="activeGroup" [groups]="groups"></groups-panel>
       <add-group-item-panel [actions]="actions"></add-group-item-panel>
       <button type="button" class="btn btn-lg btn-primary" (click)="actions.pick()">Pick Random Item</button>
-      <!-- <h4>Last To Choose: {{lastPick?.name}} {{lastPick?.lastPicked}}</h4> -->
+      <h4>Last To Choose: {{lastPick?.name}} {{lastPick?.lastPicked}}</h4>
     </div>
     <div class="col-sm-8">
-      <group-items-panel [actions]="actions" [activeGroup]="activeGroup" [groupItems]="activeGroupItems"></group-items-panel>
+      <group-items-panel [actions]="actions" [group]="activeGroup" [groupItems]="activeGroupItems"></group-items-panel>
     </div>
   </div>
 </div>

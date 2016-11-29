@@ -19,7 +19,7 @@ class PickerStore extends flux.Store {
   bool get activeGroupHasItems => _groupItems.any((GroupItem item) => item.group.name == activeGroup.name);
 
   List<GroupItem> getItemsInGroup(Group group) {
-    return new List<GroupItem>.from(_groupItems.where((GroupItem item) => item.group.name == group.name));
+    return new List<GroupItem>.from(_groupItems.where((GroupItem item) => item.group.name == group?.name));
   }
 
   Map<String, Map<String, List<int>>> _teamMemberPickDates;

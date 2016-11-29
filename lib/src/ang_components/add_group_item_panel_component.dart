@@ -6,6 +6,4 @@ part of angular_picker;
 class AddGroupItemPanelComponent {
   @Input()
   PickerActions actions;
-
-  String newGroupItem = "";
 }
