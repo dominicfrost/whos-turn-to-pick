@@ -14,4 +14,8 @@ class Group {
   Map toJson() {
     return {'name': this.name};
   }
+
+  String toString() {
+    return 'Group(name: $name)';
+  }
 }

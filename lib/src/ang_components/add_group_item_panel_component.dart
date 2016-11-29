@@ -7,8 +7,5 @@ class AddGroupItemPanelComponent {
   @Input()
   PickerActions actions;
 
-  @Input()
-  Group activeGroup;
-
   String newGroupItem = "";
 }

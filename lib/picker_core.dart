@@ -1,6 +1,8 @@
 library picker_core;
 
 import 'dart:async';
+import 'dart:convert';
+import 'dart:html';
 
 import 'package:firebase3/firebase.dart' as firebase;
 import 'package:w_flux/w_flux.dart' as flux;

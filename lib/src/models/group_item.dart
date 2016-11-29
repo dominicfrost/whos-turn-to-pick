@@ -23,4 +23,8 @@ class GroupItem {
       'hasPicked': this.hasPicked,
     };
   }
+
+  String toString() {
+    return 'GroupItem(name: $name, group: $group, lastPicked: $lastPicked, hasPicked: $hasPicked)';
+  }
 }

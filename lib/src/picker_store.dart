@@ -19,7 +19,7 @@ class PickerStore extends flux.Store {
   bool get activeGroupHasItems => _groupItems.any((GroupItem item) => item.group.name == activeGroup.name);
 
   List<GroupItem> getItemsInGroup(Group group) {
-    return _groupItems.where((GroupItem item) => item.group.name == group.name);
+    return new List<GroupItem>.from(_groupItems.where((GroupItem item) => item.group.name == group.name));
   }
 
   Map<String, Map<String, List<int>>> _teamMemberPickDates;
@@ -51,11 +51,6 @@ class PickerStore extends flux.Store {
   }
 
   PickerStore(PickerActions actions) {
-    // _client = new FirebaseClient()
-    _client = new LocalPickerClient()
-      ..groupAdded.listen(_groupAddedHandler)
-      ..groupItemAdded.listen(_groupItemAddedHandler);
-
     _groups = new List<Group>();
     _groupItems = new List<GroupItem>();
 
@@ -69,6 +64,15 @@ class PickerStore extends flux.Store {
       ..selectGroupItem.listen(_selectGroupItem)
       ..toggleGroupItemActive.listen(_toggleGroupItemActive)
       ..pick.listen(_pick);
+
+    // _client = new FirebaseClient()
+    _client = new LocalPickerClient()
+      ..groupAdded.listen(_groupAddedHandler)
+      ..groupRemoved.listen(_groupremovedHandler)
+      ..groupItemAdded.listen(_groupItemAddedHandler)
+      ..groupItemRemoved.listen(_groupItemRemovedHandler);
+
+    _client.signIn();
   }
 
   // Client event handlers
@@ -79,12 +83,22 @@ class PickerStore extends flux.Store {
       _activeGroup = newGroup;
       _addedGroupName = NO_GROUP_ADDED;
     }
+    print("_groupAddedHandler $newGroup : ${groups}");
     trigger();
+  }
+
+  void _groupremovedHandler(Group oldGroup) {
+    print("_groupremovedHandler $oldGroup : ${groups}");
   }
 
   void _groupItemAddedHandler(GroupItem newGroupItem) {
     _groupItems.add(newGroupItem);
+    print("_groupItemAddedHandler $newGroupItem : ${groupItems}");
     trigger();
+  }
+
+  void _groupItemRemovedHandler(GroupItem oldGroupItem) {
+    print("_groupItemRemovedHandler $oldGroupItem : ${groupItems}");
   }
 
   // Action Handlers

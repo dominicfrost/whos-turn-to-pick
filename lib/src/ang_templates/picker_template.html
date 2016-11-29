@@ -9,13 +9,13 @@
   </div>
   <div class="row">
     <div class ="col-sm-4">
-      <groups-panel [groups]="groups" [activeGroup]="activeGroup" [actions]="actions"></groups-panel>
-      <add-group-item-panel [group]="activeGroup" [actions]="actions"></add-group-item-panel>
+      <groups-panel [actions]="actions" [activeGroup]="activeGroup" [groups]="groups"></groups-panel>
+      <add-group-item-panel [actions]="actions"></add-group-item-panel>
       <button type="button" class="btn btn-lg btn-primary" (click)="actions.pick()">Pick Random Item</button>
-      <h4 *ngIf="lastPick != null" >Last To Choose: {{lastPick.name}} {{lastPick.lastPicked}}</h4>
+      <!-- <h4>Last To Choose: {{lastPick?.name}} {{lastPick?.lastPicked}}</h4> -->
     </div>
     <div class="col-sm-8">
-      <group-items-panel [activeGroup]="activeGroup" [groupItems]="activeGroupItems" [actions]="actions"></group-items-panel>
+      <group-items-panel [actions]="actions" [activeGroup]="activeGroup" [groupItems]="activeGroupItems"></group-items-panel>
     </div>
   </div>
 </div>
