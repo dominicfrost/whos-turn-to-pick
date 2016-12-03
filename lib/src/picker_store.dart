@@ -65,8 +65,23 @@ class PickerStore extends flux.Store {
       ..toggleGroupItemActive.listen(_toggleGroupItemActive)
       ..pick.listen(_pick);
 
-    // _client = new FirebaseClient()
-    _client = new LocalPickerClient()
+    // resolve persistence method
+    switch (Uri.base.queryParameters['mode']) {
+      case 'prod':
+        _client = new FirebaseClient();
+        break;
+      case 'local':
+        _client = new LocalPickerClient();
+        break;
+      default:
+        if (Uri.base.host == 'localhost') {
+          _client = new LocalPickerClient();
+        } else {
+          _client = new FirebaseClient();
+        }
+    }
+
+    _client
       ..groupAdded.listen(_groupAddedHandler)
       ..groupRemoved.listen(_groupremovedHandler)
       ..groupItemAdded.listen(_groupItemAddedHandler)
