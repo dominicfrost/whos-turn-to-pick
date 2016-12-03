@@ -1,22 +1,14 @@
 library lunch_picker;
 
-import 'dart:async';
-
 import 'package:react/react.dart' as react;
 import 'package:w_flux/w_flux.dart' as flux;
-import 'package:firebase3/firebase.dart' as firebase;
 
-part 'src/picker_actions.dart';
-part 'src/picker_store.dart';
-part 'src/firebase_client.dart';
+import 'package:lunch_picker/picker_core.dart';
 
 part 'src/components/group_item_list.dart';
 part 'src/components/group_item_panel.dart';
 part 'src/components/group_panel.dart';
 part 'src/components/picker.dart';
-
-part 'src/models/group.dart';
-part 'src/models/group_item.dart';
 
 class LunchPicker {
   PickerActions _actions;

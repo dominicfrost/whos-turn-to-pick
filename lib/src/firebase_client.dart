@@ -1,6 +1,6 @@
-part of lunch_picker;
+part of picker_core;
 
-class FirebaseClient {
+class FirebaseClient implements PickerClient {
   firebase.GoogleAuthProvider _fbGoogleAuthProvider;
   firebase.Auth _fbAuth;
   firebase.Database _fbDatabase;
@@ -12,6 +12,46 @@ class FirebaseClient {
   firebase.DatabaseReference get fbGroupItems => _fbGroupItems;
 
   firebase.User user;
+
+  StreamTransformer<firebase.QueryEvent, Group> _groupAddedTransformer =
+    new StreamTransformer<firebase.QueryEvent, Group>((Stream<firebase.QueryEvent> input, bool cancelOnError) {
+      StreamController<Group> controller;
+      StreamSubscription<firebase.QueryEvent> subscription;
+      controller = new StreamController<Group>(
+        onListen: () {
+          subscription = input.listen((data) {
+              controller.add(new Group.fromJson(data.snapshot.val()));
+            },
+            onError: controller.addError,
+            onDone: controller.close,
+            cancelOnError: cancelOnError);
+        },
+        onPause: () { subscription.pause(); },
+        onResume: () { subscription.resume(); },
+        onCancel: () { subscription.cancel(); },
+        sync: true);
+      return controller.stream.listen(null);
+    });
+
+  StreamTransformer<firebase.QueryEvent, GroupItem> _groupItemAddedTransformer =
+    new StreamTransformer<firebase.QueryEvent, GroupItem>((Stream<firebase.QueryEvent> input, bool cancelOnError) {
+      StreamController<GroupItem> controller;
+      StreamSubscription<firebase.QueryEvent> subscription;
+      controller = new StreamController<GroupItem>(
+        onListen: () {
+          subscription = input.listen((data) {
+              controller.add(new GroupItem.fromJson(data.snapshot.val()));
+            },
+            onError: controller.addError,
+            onDone: controller.close,
+            cancelOnError: cancelOnError);
+        },
+        onPause: () { subscription.pause(); },
+        onResume: () { subscription.resume(); },
+        onCancel: () { subscription.cancel(); },
+        sync: true);
+      return controller.stream.listen(null);
+    });
 
   FirebaseClient() {
     firebase.initializeApp(
@@ -48,6 +88,20 @@ class FirebaseClient {
   void signOut() {
     _fbAuth.signOut();
   }
+
+  // PickerClient implementation
+
+  // streams
+
+  Stream<Group> get groupAdded => _fbGroups.onChildAdded.transform(_groupAddedTransformer);
+
+  Stream<Group> get groupRemoved => null;
+
+  Stream<GroupItem> get groupItemAdded => _fbGroupItems.onChildAdded.transform(_groupItemAddedTransformer);
+
+  Stream<GroupItem> get groupItemRemoved => null;
+
+  // update methods
 
   Future createGroup(Group group) async {
     try {

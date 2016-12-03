@@ -1,0 +1,21 @@
+<div class="container theme-showcase" role="main">
+  <br />
+  <div class="jumbotron">
+    <h1>Welcome to the Picker</h1>
+    <p>This is a simple web-app that will randomly select a group item</p>
+    <p>
+      <a href="https://github.com/dominicfrost/whos-turn-to-pick" class="btn btn-primary btn-lg" role="button">View Source »</a>
+    </p>
+  </div>
+  <div class="row">
+    <div class ="col-sm-4">
+      <groups-panel [actions]="actions" [activeGroup]="activeGroup" [groups]="groups"></groups-panel>
+      <add-group-item-panel [actions]="actions"></add-group-item-panel>
+      <button type="button" class="btn btn-lg btn-primary" (click)="actions.pick()">Pick Random Item</button>
+      <h4>Last To Choose: {{lastPick?.name}} {{lastPick?.lastPicked}}</h4>
+    </div>
+    <div class="col-sm-8">
+      <group-items-panel [actions]="actions" [group]="activeGroup" [groupItems]="activeGroupItems"></group-items-panel>
+    </div>
+  </div>
+</div>

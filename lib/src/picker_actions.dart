@@ -1,4 +1,4 @@
-part of lunch_picker;
+part of picker_core;
 
 class PickerActions {
   final flux.Action<String> createGroup = new flux.Action();

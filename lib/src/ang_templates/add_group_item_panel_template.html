@@ -1,0 +1,7 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Group Item Generator</div>
+  <div class="panel-body">
+    <input #newGroupItemName class="form-group form-control" placeholder="item name..." ref="textarea"/>
+    <button type="button" class="form-group btn btn-md btn-primary" (click)="actions.createGroupItem(newGroupItemName.value); newGroupItemName.value=''">Add Item</button>
+  </div>
+</div>

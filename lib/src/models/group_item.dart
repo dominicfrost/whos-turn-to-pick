@@ -1,4 +1,4 @@
-part of lunch_picker;
+part of picker_core;
 
 class GroupItem {
   String name;
@@ -22,5 +22,9 @@ class GroupItem {
       'lastPicked': this.lastPicked,
       'hasPicked': this.hasPicked,
     };
+  }
+
+  String toString() {
+    return 'GroupItem(name: $name, group: $group, lastPicked: $lastPicked, hasPicked: $hasPicked)';
   }
 }

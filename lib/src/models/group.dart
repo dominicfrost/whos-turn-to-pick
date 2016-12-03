@@ -1,4 +1,4 @@
-part of lunch_picker;
+part of picker_core;
 
 class Group {
   String name;
@@ -13,5 +13,9 @@ class Group {
 
   Map toJson() {
     return {'name': this.name};
+  }
+
+  String toString() {
+    return 'Group(name: $name)';
   }
 }
